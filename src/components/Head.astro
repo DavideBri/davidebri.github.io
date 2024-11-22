@@ -2,12 +2,12 @@
 import "../styles/global.css";
 import "@fontsource/inter/latin-400.css";
 import "@fontsource/inter/latin-600.css";
-import "@fontsource/lora/400.css";
-import "@fontsource/lora/600.css";
+// import "@fontsource/lora/400.css";
+// import "@fontsource/lora/600.css";
 import inter400 from "@fontsource/inter/files/inter-latin-400-normal.woff2";
 import inter600 from "@fontsource/inter/files/inter-latin-600-normal.woff2";
-import lora400 from "@fontsource/lora/files/lora-latin-400-normal.woff2";
-import lora600 from "@fontsource/lora/files/lora-latin-600-normal.woff2";
+// import lora400 from "@fontsource/lora/files/lora-latin-400-normal.woff2";
+// import lora600 from "@fontsource/lora/files/lora-latin-600-normal.woff2";
 import { ViewTransitions } from "astro:transitions";
 
 interface Props {
@@ -60,14 +60,14 @@ const { title, description, image = "/nano.png" } = Astro.props;
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0P8ZHWH0HE"></script>
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-0P8ZHWH0HE"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'G-0P8ZHWH0HE');
-</script>
+</script> -->
 
 <ViewTransitions  />
 
