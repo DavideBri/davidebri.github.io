@@ -3,49 +3,95 @@ import { getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 import { dateRange } from "@lib/utils";
-import { WORK } from "@consts";
+import { SITE, WORK, SOCIALS } from "@consts";
+import Link from "@components/Link.astro";
 
-const collection = (await getCollection("work"))
-  .sort((a, b) => new Date(b.data.dateStart).valueOf() - new Date(a.data.dateStart).valueOf());
+const collection = (await getCollection("work")).sort(
+    (a, b) =>
+        new Date(b.data.dateStart).valueOf() -
+        new Date(a.data.dateStart).valueOf(),
+);
 
 const work = await Promise.all(
-  collection.map(async (item) => {
-    const { Content } = await item.render();
-    return { ...item, Content };
-  })
+    collection.map(async (item) => {
+        const { Content } = await item.render();
+        return { ...item, Content };
+    }),
 );
 ---
 
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
-  <Container>
-    <div class="space-y-10">
-      <div class="animate font-semibold text-black dark:text-white">
-        Work
-      </div>
-      <ul class="flex flex-col space-y-4">
-        { 
-          work.map(entry => (
-            <li class="animate">
-              <div class="text-sm opacity-75">
-                {dateRange(entry.data.dateStart, entry.data.dateEnd)}
-              </div>
-              <div class="font-semibold text-black dark:text-white">
-                {entry.data.company}
-              </div>
-              <div class="text-sm opacity-75">
-                {entry.data.role}
-              </div>
-              <article>
-                <entry.Content />
-              </article>
-            </li>
-          ))
-        }
-      </ul>
-<!-- 
+    <Container>
+        <div class="space-y-10">
+            <div class="animate font-semibold text-black dark:text-white">
+                👔 Work
+            </div>
+            <ul class="flex flex-col space-y-4">
+                {
+                    work.map((entry) => (
+                        <li class="animate">
+                            <div class="text-sm opacity-75">
+                                {dateRange(
+                                    entry.data.dateStart,
+                                    entry.data.dateEnd,
+                                )}
+                            </div>
+                            <div class="font-semibold text-black dark:text-white">
+                                {entry.data.company}
+                            </div>
+                            <div class="text-sm opacity-75">
+                                {entry.data.role}
+                            </div>
+                            <article>
+                                <entry.Content />
+                            </article>
+                        </li>
+                    ))
+                }
+            </ul>
+            <!--
       <ul class="animate flex flex-col gap-4">
 
       </ul> -->
-    </div>
-  </Container>
+
+            <section class="animate py-20">
+                <h5 class="font-semibold text-black dark:text-white">
+                    📮 Let's Connect
+                </h5>
+                <article>
+                    <p>
+                        Wanna talk about some WEB3 stuff? Looking for speakers
+                        at a conference? Learn to gesticulate like a real
+                        Italian?
+                        <br />Don't hesitate to get in touch, just to chat or
+                        for anything you need!
+                    </p>
+                </article>
+                <ul class="flex flex-wrap gap-2">
+                    {
+                        SOCIALS.map((SOCIAL) => (
+                            <li class="flex gap-x-2 text-nowrap">
+                                <Link
+                                    href={SOCIAL.HREF}
+                                    external
+                                    aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}
+                                >
+                                    {SOCIAL.NAME}
+                                </Link>
+                                {"/"}
+                            </li>
+                        ))
+                    }
+                    <li class="line-clamp-1">
+                        <Link
+                            href={`mailto:${SITE.EMAIL}`}
+                            aria-label={`Email ${SITE.NAME}`}
+                        >
+                            {SITE.EMAIL}
+                        </Link>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </Container>
 </PageLayout>
