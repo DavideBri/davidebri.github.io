@@ -7,6 +7,7 @@ import Link from "@components/Link.astro";
 import { dateRange } from "@lib/utils";
 import { SITE, HOME, SOCIALS } from "@consts";
 
+
 const blog = (await getCollection("blog"))
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -35,26 +36,41 @@ const work = await Promise.all(
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
     <Container>
-        <h4 class="animate font-semibold text-black dark:text-white">
-            Hey! <span class="text-xl">👋🏻</span> I'm Davide nice to meet you!
-        </h4>
         <div class="space-y-16">
-            <section>
-                <article class="space-y-4">
-                    <p class="animate">
-                        25 y/o CS student from Pisa, who loves explore everything that requires
-                        inventiveness and reasoning.<br> Below, you'll find things
-                        <abbr title="written by me, grammar checked by quillbot :)">I've written</abbr> about topics that captured my interest,
-                        along with some personal reflections I'd like to share.
-                    </p>
-                </article>
+            <section class="flex items-center gap-8"> <!-- Added flex container -->
+                <!-- Profile Image -->
+                <div class="shrink-0"> <!-- shrink-0 prevents image from shrinking -->
+                    <img
+                        src="/propic.jpg"
+                        alt="Davide's profile picture"
+                        class="w-32 h-32 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 animate filter grayscale hover:grayscale-0 transition-all duration-300 ease-in-out"
+                    />
+                </div>
+                <!-- Bio -->
+                <section>
+                <h4 class="animate font-semibold text-black dark:text-white ">
+                    <span class="text-xl">👋🏻</span> Hello there!
+                </h4>
+                    <article>
+                        <p class="animate">
+                            I'm Davide, 25 y/o CS student from Pisa, who loves explore everything that requires
+                            inventiveness and reasoning.
+                        </p>
+                    </article>
+                </section>
             </section>
+            <article>
+                <p class="animate"> Below, you'll find things
+                <abbr title="written by me, grammar checked by quillbot :)">I've written</abbr> about topics that captured my interest,
+                along with some personal reflections I'd like to share.</p>
+            </article>
+            
                 <section class="animate space-y-6">
                     <div
                         class="flex flex-wrap gap-y-2 items-center justify-between"
                     >
                         <h5 class="font-semibold text-black dark:text-white">
-                            Latest posts
+                            📜 Latest posts
                         </h5>
                         <Link href="/blog"> See all posts </Link>
                     </div>
@@ -75,7 +91,7 @@ const work = await Promise.all(
                         class="flex flex-wrap gap-y-2 items-center justify-between"
                     >
                         <h5 class="font-semibold text-black dark:text-white">
-                            Recent projects
+                            🛠️ Recent projects
                         </h5>
                         <Link href="/projects"> See all projects </Link>
                     </div>
@@ -92,7 +108,7 @@ const work = await Promise.all(
 
                 <section class="animate space-y-4">
                     <h5 class="font-semibold text-black dark:text-white">
-                        Let's Connect
+                        📮 Let's Connect
                     </h5>
                     <article>
                         <p>
