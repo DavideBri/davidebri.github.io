@@ -5,16 +5,16 @@ date: "22 Dec 2022"
 ---
 
 Since I wanted to gather as more information as possible about the Web3 ecosystem, I started looking for some meetup in my area.
-I found this one that was all about Blockchain develepment called **Web3 Night**, at my university, organized by [Pisa Dev](https://pisa.dev).
+I found this one that was all about Blockchain develepment called **Web3 Night**, at my university, organized by [pisa.dev](https://pisa.dev).
 
-## Where it started 
+## Where it started
 
 One of the speaker, made a presentation about how smart contracts can be really easy to write but hard to make them secure, and showed a bunch of tool to help developers writing more secure smart contracts.
 
-As part of the talk, the speaker challenged the audience to try and find any potential vulnerabilities in [a smart contract that he had provided](https://polygonscan.com/address/0xbAAf846f531d98DFca8Eb06D4B2e2948A5A593C7#code#L1). 
+As part of the talk, the speaker challenged the audience to try and find any potential vulnerabilities in [a smart contract that he had provided](https://polygonscan.com/address/0xbAAf846f531d98DFca8Eb06D4B2e2948A5A593C7#code#L1).
 Being a computer science student with a keen interest in blockchain, I eagerly accepted the challenge and set about analyzing the contract.
 
-## The challenge 
+## The challenge
 
 Once home and some intense scrutiny (using a tool he suggested called [slinther](https://github.com/crytic/slither)), I finally hit upon something interesting: a potential **reentrancy attack**.
 
@@ -53,12 +53,12 @@ receive() external payable {
 
 ## Time to rob the Bank!
 
-I was able to confirm my suspicions by writing a test case and running it on a local Ethereum testnet in the [Remix IDE](https://remix.ethereum.org). 
+I was able to confirm my suspicions by writing a test case and running it on a local Ethereum testnet in the [Remix IDE](https://remix.ethereum.org).
 To my amazement, the attack worked exactly as I had predicted, and the smart contract's balance was quickly drained.
 
 I immediately deployed my contract to mainnet and...
 
-> 120 $ WORTH OF MATIC IN MY WALLET!
+> **120 $ WORTH OF MATIC IN MY WALLET!**
 
 ## Some consideration
 
