@@ -3,17 +3,12 @@
 @tailwind utilities;
 
 ::selection {
-    /* @apply bg-black/10 dark:bg-white/25; */
-    /* or use specific colors */
-    background: rgba(119,103,182, 0.5);
+    @apply bg-violet-300/80
 }
 
-/* For Firefox */
-/* ::-moz-selection {
-  @apply bg-black/10 dark:bg-white/25;
-  /* or use specific colors */
-/* background: rgba(0, 0, 0, 0.1); */
-/* }  */
+.dark ::selection {
+    @apply bg-violet-500/80
+}
 
 html {
     overflow-y: scroll;
@@ -32,13 +27,13 @@ body {
 body {
     @apply font-sans antialiased;
     @apply flex flex-col;
-    @apply bg-stone-100 dark:bg-stone-900;
+    @apply bg-amber-50 dark:bg-gray-800;
     @apply text-black/50 dark:text-white/75;
 }
 
 header {
     @apply fixed top-0 left-0 right-0 z-50 py-5;
-    @apply bg-stone-100/75 dark:bg-stone-900/25;
+    @apply bg-amber-50/75 dark:bg-neutral-900/75;
     @apply backdrop-blur-sm saturate-200;
 }
 
