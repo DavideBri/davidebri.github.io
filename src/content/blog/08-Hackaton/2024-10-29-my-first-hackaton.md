@@ -2,6 +2,7 @@
 title: My first hack-a-ton
 description: my experience participating in my first-ever hackathon, a week-long, prize-free event that turned out to be an unforgettable adventure!
 date: "29 Oct 2024"
+ogImage: "./og.jpg"
 ---
 
 ## Would you partipate in an Hackaton with no prizes?
