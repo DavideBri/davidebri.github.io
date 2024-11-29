@@ -7,13 +7,13 @@ import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
 
 export async function getStaticPaths() {
-  const posts = (await getCollection("blog"))
-    .filter(post => !post.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
+    const posts = (await getCollection("blog"))
+        .filter((post) => !post.data.draft)
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    return posts.map((post) => ({
+        params: { slug: post.slug },
+        props: post,
+    }));
 }
 type Props = CollectionEntry<"blog">;
 
@@ -22,44 +22,45 @@ const { Content } = await post.render();
 ---
 
 <PageLayout title={post.data.title} description={post.data.description}>
-  <Container>
-    <div class="animate">
-      <BackToPrev href="/blog">
-        Back to blog
-      </BackToPrev>
-    </div>
-    <div class="space-y-1 my-10">
-      <div class="animate flex items-center gap-1.5">
-        <div class="font-base text-sm">
-          <FormattedDate date={post.data.date} />
+    <Container>
+        <div class="animate">
+            <BackToPrev href="/blog"> Back to blog </BackToPrev>
         </div>
-        &bull;
-        <div class="font-base text-sm">
-          {readingTime(post.body)}
+        <div class="space-y-1 my-10">
+            <div class="animate flex items-center gap-1.5">
+                <div class="font-base text-sm">
+                    <FormattedDate date={post.data.date} />
+                </div>
+                &bull;
+                <div class="font-base text-sm">
+                    {readingTime(post.body)}
+                </div>
+            </div>
+            <div
+                class="animate text-2xl font-semibold text-black dark:text-white"
+            >
+                {post.data.title}
+            </div>
         </div>
-      </div>
-      <div class="animate text-2xl font-semibold text-black dark:text-white">
-        {post.data.title}
-      </div>
-    </div>
-    <article class="animate">
-      <Content />
-    </article>
-  </Container>
-  <script src="https://giscus.app/client.js"
-          data-repo="DavideBri/davidebri.github.io"
-          data-repo-id="R_kgDONS3zrg"
-          data-category="Announcements"
-          data-category-id="DIC_kwDONS3zrs4CkuiO"
-          data-mapping="og:title"
-          data-strict="0"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="preferred_color_scheme"
-          data-lang="en"
-          data-loading="lazy"
-          crossorigin="anonymous"
-          async>
-  </script>
+        <article class="animate">
+            <Content />
+        </article>
+    </Container>
+    <script
+        src="https://giscus.app/client.js"
+        data-repo="DavideBri/davidebri.github.io"
+        data-repo-id="R_kgDONS3zrg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDONS3zrs4CkuiO"
+        data-mapping="title"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+    ></script>
 </PageLayout>
