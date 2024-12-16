@@ -23,6 +23,48 @@ const work = await Promise.all(
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
     <Container>
         <div class="space-y-10">
+        
+        <!-- <section class="animate py-20">
+            <h5 class="font-semibold text-black dark:text-white">
+                🔧 Tools i use
+            </h5>
+            <article>
+                <p>
+                    Wanna talk about some WEB3 stuff? Looking for speakers
+                    at a conference? Learn to gesticulate like a real
+                    Italian?
+                    <br />Don't hesitate to get in touch, just to chat or
+                    for anything you need!
+                </p>
+            </article>
+            <ul class="flex flex-wrap gap-2">
+                {
+                    SOCIALS.map((SOCIAL) => (
+                        <li class="flex gap-x-2 text-nowrap">
+                            <Link
+                                href={SOCIAL.HREF}
+                                external
+                                aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}
+                            >
+                                {SOCIAL.NAME}
+                            </Link>
+                            {"/"}
+                        </li>
+                    ))
+                }
+                <li class="line-clamp-1">
+                    <Link
+                        href={`mailto:${SITE.EMAIL}`}
+                        aria-label={`Email ${SITE.NAME}`}
+                    >
+                        {SITE.EMAIL}
+                    </Link>
+                </li>
+            </ul>
+        </section> -->
+        
+        
+        
             <div class="animate font-semibold text-black dark:text-white">
                 👔 Work
             </div>
@@ -49,49 +91,45 @@ const work = await Promise.all(
                     ))
                 }
             </ul>
-            <!--
-      <ul class="animate flex flex-col gap-4">
 
-      </ul> -->
-
-            <section class="animate py-20">
-                <h5 class="font-semibold text-black dark:text-white">
-                    📮 Let's Connect
-                </h5>
-                <article>
-                    <p>
-                        Wanna talk about some WEB3 stuff? Looking for speakers
-                        at a conference? Learn to gesticulate like a real
-                        Italian?
-                        <br />Don't hesitate to get in touch, just to chat or
-                        for anything you need!
-                    </p>
-                </article>
-                <ul class="flex flex-wrap gap-2">
-                    {
-                        SOCIALS.map((SOCIAL) => (
-                            <li class="flex gap-x-2 text-nowrap">
-                                <Link
-                                    href={SOCIAL.HREF}
-                                    external
-                                    aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}
-                                >
-                                    {SOCIAL.NAME}
-                                </Link>
-                                {"/"}
-                            </li>
-                        ))
-                    }
-                    <li class="line-clamp-1">
-                        <Link
-                            href={`mailto:${SITE.EMAIL}`}
-                            aria-label={`Email ${SITE.NAME}`}
-                        >
-                            {SITE.EMAIL}
-                        </Link>
-                    </li>
-                </ul>
-            </section>
+        <section class="animate py-20">
+            <h5 class="font-semibold text-black dark:text-white">
+                📮 Let's Connect
+            </h5>
+            <article>
+                <p>
+                    Wanna talk about some WEB3 stuff? Looking for speakers
+                    at a conference? Learn to gesticulate like a real
+                    Italian?
+                    <br />Don't hesitate to get in touch, just to chat or
+                    for anything you need!
+                </p>
+            </article>
+            <ul class="flex flex-wrap gap-2">
+                {
+                    SOCIALS.map((SOCIAL) => (
+                        <li class="flex gap-x-2 text-nowrap">
+                            <Link
+                                href={SOCIAL.HREF}
+                                external
+                                aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}
+                            >
+                                {SOCIAL.NAME}
+                            </Link>
+                            {"/"}
+                        </li>
+                    ))
+                }
+                <li class="line-clamp-1">
+                    <Link
+                        href={`mailto:${SITE.EMAIL}`}
+                        aria-label={`Email ${SITE.NAME}`}
+                    >
+                        {SITE.EMAIL}
+                    </Link>
+                </li>
+            </ul>
+        </section>
         </div>
     </Container>
 </PageLayout>
