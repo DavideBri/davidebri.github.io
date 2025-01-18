@@ -72,6 +72,7 @@ const work = await Promise.all(
                 {
                     work.map((entry) => (
                         <li class="animate">
+                        
                             <div class="text-sm opacity-75">
                                 {dateRange(
                                     entry.data.dateStart,
@@ -87,7 +88,10 @@ const work = await Promise.all(
                             <article>
                                 <entry.Content />
                             </article>
+                            |
+
                         </li>
+                        
                     ))
                 }
             </ul>
