@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 ::selection {
-    @apply bg-violet-300/80
+    @apply bg-violet-300/20
 }
 
 .dark ::selection {
-    @apply bg-violet-500/80
+    @apply bg-violet-500/30
 }
 
 html {
