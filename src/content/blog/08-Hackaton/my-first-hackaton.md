@@ -24,7 +24,8 @@ After that, we split in 3 teams:
 - 🔧 Backend ( next time i want to be here though )
 - 📜 Docs and Support
 
-I instantly fell in love with my team, they were so skilled and open to share knowledge and insight, that i will for sure keep in touch with them <br>*( SPOILER: We are organizing to go to the next Codemotion conference together :D )*
+I instantly fell in love with my team, they were so skilled and open to share knowledge and insight, that i will for sure keep in touch with them 
+> We are organizing to go to the next Codemotion conference together :D
 
 When I came back from my weekend, I started catching up with all the amazing work that they've done while I was away. It was **A LOT** to catch up on, but somehow i managed.
 
@@ -32,13 +33,13 @@ So I was ready to bring my contribution to the project, so after meetings and ch
 
 
 One of my favorite parts was when everyone had their tasks, and then, after merging our work together, we saw the app make real progress.
-Well to be honest merging was not so easy at fist beacuse we were using different `Priettier` and that made the PR reviews veeery difficult to read and review.
+Well to be honest merging was not so easy at fist beacuse we were using different `Priettier` config and that made the PR reviews veeery difficult to read and review.
 
 
 ![i changed one line, i thought](./diff_changes.png)
 i changed one line... i thought. 🙄
 
-Finally, a teammate found a Prettier config we could use project-wide, and that gave us a huge boost on the project.
+Finally, a teammate setted up a Prettier config we could use project-wide, and that gave us a huge boost on the project.
 
 I hadn’t realized Prettier could cause such problems when working in a slightly larger group than I was used to. Lesson learned! 😅
 
