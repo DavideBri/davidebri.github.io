@@ -7,7 +7,6 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        cal: ['"Cal Sans"', 'sans-serif'],
         noto: ['"Noto Sans"', 'sans-serif'],
       },
     },
