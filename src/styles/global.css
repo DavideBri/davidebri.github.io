@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 ::selection {
     @apply bg-violet-300/20
@@ -25,7 +27,7 @@ body {
 }
 
 body {
-    @apply font-sans antialiased;
+    @apply font-cal antialiased;
     @apply flex flex-col;
     @apply bg-fixed bg-gradient-to-b from-amber-50 to-yellow-50 dark:from-gray-800 dark:to-gray-900;
     @apply text-black/50 dark:text-white/75;
@@ -47,7 +49,7 @@ footer {
 
 article {
     @apply max-w-full prose dark:prose-invert prose-img:mx-auto prose-img:my-auto;
-    @apply prose-headings:font-semibold prose-p:font-serif;
+    @apply prose-headings:font-noto prose-p:font-cal;
     @apply prose-headings:text-black prose-headings:dark:text-white;
 }
 
