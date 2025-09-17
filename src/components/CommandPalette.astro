@@ -6,12 +6,12 @@ import { SITE } from "@consts";
   <button
     id="cmdpalette-btn"
     type="button"
-    class="fixed top-4 left-4 z-50 w-12 h-12 rounded-lg bg-gray-100 border border-gray-200 dark:bg-gray-900/90 dark:border-gray-700 flex items-center justify-center text-xs font-medium focus:outline-none focus:ring-2 backdrop-blur-sm"
+    class="fixed top-14 left-14 z-50 w-12 h-12 rounded-lg bg-gray-100 border border-gray-200 dark:bg-gray-700 dark:border-gray-500 flex items-center justify-center text-s font-medium backdrop-blur-sm"
     aria-haspopup="dialog"
     aria-expanded="false"
     title="Open quick menu (Ctrl+K)"
   >
-    <span class="tracking-tight">CTRL+K</span>
+    <span class="tracking-tight">⌘K</span>
   </button>
 
   <!-- Overlay + Modal -->
@@ -24,15 +24,15 @@ import { SITE } from "@consts";
       role="dialog"
       aria-modal="true"
       aria-labelledby="cmdpalette-title"
-      class="mx-auto w-full max-w-xl rounded-3xl bg-white/95 dark:bg-gray-900/95 text-black dark:text-white shadow-2xl ring-1 ring-violet/5 overflow-hidden transform transition-all duration-200"
+      class="mx-auto w-full max-w-md rounded-3xl bg-paper dark:bg-charcoal text-black dark:text-white overflow-hidden transform transition-all duration-200"
       style="backdrop-filter: blur(6px);"
     >
       <!-- Header -->
-      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
-        <div id="cmdpalette-time" class="text-sm text-gray-600 dark:text-gray-400"></div>
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-200/20">
+        <div id="cmdpalette-time" class="text-sm"></div>
         <button
           id="cmdpalette-toggle-theme"
-          class="text-sm cp-accent hover:bg-violet-100 dark:hover:bg-violet-900 hover:text-violet-700 rounded-md px-2 py-1 transition"
+          class="text-sm cp-accent hover:bg-violet-100 dark:hover:bg-violet-400/40 rounded-md px-2 py-1 transition"
           type="button"
         >
           Lights off
@@ -44,20 +44,27 @@ import { SITE } from "@consts";
         <h4 class="text-sm text-gray-500 dark:text-gray-400 mb-2">Pages</h4>
         <ul id="cmdpalette-list" class="space-y-2">
           <li>
-            <a href="/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
-              <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M3 10.5L12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <a href="/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-400/40 text-sm">
+              <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M3 10.5L12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              
               <span>Home</span>
             </a>
           </li>
           <li>
-            <a href="/about" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
-              <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          <li>
+            <a href="/notes" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-400/40 text-sm">
+              <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M18 5V4a1 1 0 0 0-1-1H8.914a1 1 0 0 0-.707.293L4.293 7.207A1 1 0 0 0 4 7.914V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5M9 3v4a1 1 0 0 1-1 1H4m11.383.772 2.745 2.746m1.215-3.906a2.089 2.089 0 0 1 0 2.953l-6.65 6.646L9 17.95l.739-3.692 6.646-6.646a2.087 2.087 0 0 1 2.958 0Z" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>Posts</span>
+            </a>
+          </li>
+            <a href="/about" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-400/40 text-sm">
+              <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke="currentColor"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>About</span>
             </a>
           </li>
           <li>
-            <a href="/bookshelf" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
-              <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M4 19h16M4 6h16v13H4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <a href="/bookshelf" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-400/40 text-sm">
+              <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 19V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v13H7a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h12M9 3v14m7 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>Bookshelf</span>
             </a>
           </li>
@@ -66,20 +73,14 @@ import { SITE } from "@consts";
             <h4 class="text-sm text-gray-500 dark:text-gray-400 mb-2">Info</h4>
             <ul class="space-y-2">
               <li>
-                <a href="/notes" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
-                  <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M8 7h8M8 12h8M8 17h5" stroke="currentColor" stroke-width="1.5"/></svg>
-                  <span>Notes</span>
-                </a>
-              </li>
-              <li>
-                <a href="/colophon" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
-                  <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+                <a href="/colophon" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-400/40 text-sm">
+                  <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M7.58209 8.96025 9.8136 11.1917l-1.61782 1.6178c-1.08305-.1811-2.23623.1454-3.07364.9828-1.1208 1.1208-1.32697 2.8069-.62368 4.1363.14842.2806.42122.474.73509.5213.06726.0101.1347.0133.20136.0098-.00351.0666-.00036.1341.00977.2013.04724.3139.24069.5867.52125.7351 1.32944.7033 3.01552.4971 4.13627-.6237.8375-.8374 1.1639-1.9906.9829-3.0736l4.8107-4.8108c1.0831.1811 2.2363-.1454 3.0737-.9828 1.1208-1.1208 1.3269-2.80688.6237-4.13632-.1485-.28056-.4213-.474-.7351-.52125-.0673-.01012-.1347-.01327-.2014-.00977.0035-.06666.0004-.13409-.0098-.20136-.0472-.31386-.2406-.58666-.5212-.73508-1.3294-.70329-3.0155-.49713-4.1363.62367-.8374.83741-1.1639 1.9906-.9828 3.07365l-1.7788 1.77875-2.23152-2.23148-1.41419 1.41424Zm1.31056-3.1394c-.04235-.32684-.24303-.61183-.53647-.76186l-1.98183-1.0133c-.38619-.19746-.85564-.12345-1.16234.18326l-.86321.8632c-.3067.3067-.38072.77616-.18326 1.16235l1.0133 1.98182c.15004.29345.43503.49412.76187.53647l1.1127.14418c.3076.03985.61628-.06528.8356-.28461l.86321-.8632c.21932-.21932.32446-.52801.2846-.83561l-.14417-1.1127ZM19.4448 16.4052l-3.1186-3.1187c-.7811-.781-2.0474-.781-2.8285 0l-.1719.172c-.7811.781-.7811 2.0474 0 2.8284l3.1186 3.1187c.7811.781 2.0474.781 2.8285 0l.1719-.172c.7811-.781.7811-2.0474 0-2.8284Z" stroke="currentColor" stroke-width="1.5"/></svg>
                   <span>Colophon</span>
                 </a>
               </li>
               <li>
-                <a href="/now" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
-                  <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <a href="/now" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-400/40 text-sm">
+                  <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                   <span>Now</span>
                 </a>
               </li>
@@ -89,11 +90,11 @@ import { SITE } from "@consts";
       </div>
 
       <!-- Footer -->
-      <div class="flex items-center justify-between px-6 py-4 bg-gray-50 dark:bg-gray-800/60 border-t border-gray-100 dark:border-gray-800 text-sm">
-        <a href={`mailto:${SITE.EMAIL}`} class="text-xs text-gray-600 dark:text-gray-300 truncate">{SITE.EMAIL}</a>
+      <div class="flex items-center justify-between px-6 py-4 bg-gray-300/20 dark:bg-gray-100/20 border-t border-gray-100 dark:border-gray-800 text-sm">
+        <a href={`mailto:${SITE.EMAIL}`} class="text-sm text-gray-600 dark:text-gray-300 truncate">{SITE.EMAIL}</a>
         <div class="flex items-center gap-3 text-gray-600 dark:text-gray-400">
           <span class="text-xs">Close</span>
-          <kbd class="px-2 py-1 rounded bg-white/70 dark:bg-gray-900/60 text-xs border border-gray-200 dark:border-gray-700">ESC</kbd>
+          <kbd class="px-2 py-1 rounded bg-white/70 dark:bg-gray-900/60 text-xs border border-gray-200 dark:border-gray-100">ESC</kbd>
         </div>
       </div>
     </div>
