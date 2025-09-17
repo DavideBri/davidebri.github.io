@@ -1,0 +1,355 @@
+---
+import { SITE } from "@consts";
+---
+<div id="cmdpalette-root" class="z-50">
+  <!-- Trigger -->
+  <button
+    id="cmdpalette-btn"
+    type="button"
+    class="fixed top-4 left-4 z-50 w-12 h-12 rounded-lg bg-gray-100 border border-gray-200 dark:bg-gray-900/90 dark:border-gray-700 flex items-center justify-center text-xs font-medium focus:outline-none focus:ring-2 backdrop-blur-sm"
+    aria-haspopup="dialog"
+    aria-expanded="false"
+    title="Open quick menu (Ctrl+K)"
+  >
+    <span class="tracking-tight">CTRL+K</span>
+  </button>
+
+  <!-- Overlay + Modal -->
+  <div
+    id="cmdpalette-overlay"
+    class="fixed inset-0 z-40 hidden flex items-center justify-center bg-black/40 backdrop-blur-sm p-6"
+    aria-hidden="true"
+  >
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="cmdpalette-title"
+      class="mx-auto w-full max-w-xl rounded-3xl bg-white/95 dark:bg-gray-900/95 text-black dark:text-white shadow-2xl ring-1 ring-violet/5 overflow-hidden transform transition-all duration-200"
+      style="backdrop-filter: blur(6px);"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+        <div id="cmdpalette-time" class="text-sm text-gray-600 dark:text-gray-400"></div>
+        <button
+          id="cmdpalette-toggle-theme"
+          class="text-sm cp-accent hover:bg-violet-100 dark:hover:bg-violet-900 hover:text-violet-700 rounded-md px-2 py-1 transition"
+          type="button"
+        >
+          Lights off
+        </button>
+      </div>
+
+      <!-- List -->
+      <div class="px-6 py-4">
+        <h4 class="text-sm text-gray-500 dark:text-gray-400 mb-2">Pages</h4>
+        <ul id="cmdpalette-list" class="space-y-2">
+          <li>
+            <a href="/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
+              <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M3 10.5L12 4l9 6.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V10.5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="/about" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
+              <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+              <span>About</span>
+            </a>
+          </li>
+          <li>
+            <a href="/bookshelf" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
+              <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M4 19h16M4 6h16v13H4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Bookshelf</span>
+            </a>
+          </li>
+
+          <li class="pt-4">
+            <h4 class="text-sm text-gray-500 dark:text-gray-400 mb-2">Info</h4>
+            <ul class="space-y-2">
+              <li>
+                <a href="/notes" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
+                  <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M8 7h8M8 12h8M8 17h5" stroke="currentColor" stroke-width="1.5"/></svg>
+                  <span>Notes</span>
+                </a>
+              </li>
+              <li>
+                <a href="/colophon" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
+                  <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+                  <span>Colophon</span>
+                </a>
+              </li>
+              <li>
+                <a href="/now" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-800 text-sm">
+                  <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span>Now</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center justify-between px-6 py-4 bg-gray-50 dark:bg-gray-800/60 border-t border-gray-100 dark:border-gray-800 text-sm">
+        <a href={`mailto:${SITE.EMAIL}`} class="text-xs text-gray-600 dark:text-gray-300 truncate">{SITE.EMAIL}</a>
+        <div class="flex items-center gap-3 text-gray-600 dark:text-gray-400">
+          <span class="text-xs">Close</span>
+          <kbd class="px-2 py-1 rounded bg-white/70 dark:bg-gray-900/60 text-xs border border-gray-200 dark:border-gray-700">ESC</kbd>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- local styling to pick up blog accent color if provided -->
+<style>
+  :root {
+    --site-accent: ${SITE?.ACCENT ?? '#863bf6ff'};
+  }
+  .cp-accent { color: var(--site-accent); }
+  .cp-accent:focus, .cp-accent:active { outline: none; }
+</style>
+
+<script type="module">
+  (function () {
+    // Basic element refs
+    const btn = document.getElementById('cmdpalette-btn');
+    const overlay = document.getElementById('cmdpalette-overlay');
+    const list = document.getElementById('cmdpalette-list');
+    const timeEl = document.getElementById('cmdpalette-time');
+    const toggleBtn = document.getElementById('cmdpalette-toggle-theme');
+    const root = document.getElementById('cmdpalette-root');
+
+    if (!btn || !overlay || !list || !root) {
+      console.warn('CommandPalette: missing required elements');
+      return;
+    }
+
+    // Theme buttons that already exist elsewhere in your UI
+    const darkBtn = document.getElementById('dark-theme-button');
+    const lightBtn = document.getElementById('light-theme-button');
+
+    // Safe navigation config (allowlist via window.__SITE__ if provided)
+    const allowedHosts = Array.isArray(window.__SITE__?.ALLOWED_HOSTS) ? window.__SITE__.ALLOWED_HOSTS : [];
+
+    function isSafeUrl(href) {
+      if (!href || typeof href !== 'string') return false;
+      if (href.startsWith('/')) return true;
+      if (href.startsWith('mailto:') || href.startsWith('tel:')) return true;
+      try {
+        const parsed = new URL(href, location.origin);
+        if (parsed.origin === location.origin) return true;
+        if (allowedHosts.includes(parsed.hostname) || allowedHosts.includes(parsed.host)) return true;
+        return false;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function safeNavigate(href, target) {
+      if (!isSafeUrl(href)) {
+        console.warn('Blocked navigation to unsafe URL:', href);
+        return;
+      }
+      if (target === '_blank') window.open(href, '_blank', 'noopener');
+      else window.location.assign(href);
+    }
+
+    // Pisa time
+    function updatePisaTime() {
+      try {
+        const now = new Date();
+        const opts = { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Europe/Rome' };
+        const formatted = new Intl.DateTimeFormat(undefined, opts).format(now);
+        timeEl.textContent = `Pisa, ${formatted}`;
+      } catch (e) {
+        timeEl.textContent = 'Pisa';
+      }
+    }
+
+    let timeInterval = null;
+
+    // Helpers for keyboard browsing
+    function getLinks() {
+      if (!list) return [];
+      return Array.from(list.querySelectorAll('a[href]'));
+    }
+
+    function focusIndex(idx) {
+      const links = getLinks();
+      if (!links.length) return;
+      const clamped = ((idx % links.length) + links.length) % links.length;
+      links[clamped].focus();
+    }
+
+    // Theme helpers
+    function isDarkMode() {
+      return document.documentElement.classList.contains('dark') || localStorage.getItem('theme') === 'dark';
+    }
+
+    function updateToggleLabel() {
+      if (!toggleBtn) return;
+      toggleBtn.textContent = isDarkMode() ? 'Lights on' : 'Lights off';
+    }
+
+    function toggleTheme() {
+      // Prefer existing theme buttons if present
+      if (isDarkMode()) {
+        // currently dark -> switch to light
+        if (lightBtn) {
+          lightBtn.click();
+        } else {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        }
+      } else {
+        // currently light -> switch to dark
+        if (darkBtn) {
+          darkBtn.click();
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      }
+      // update label after short delay in case external buttons change DOM/class
+      setTimeout(updateToggleLabel, 50);
+    }
+
+    // Open/close helpers
+    function openModal() {
+      updatePisaTime();
+      if (timeInterval) clearInterval(timeInterval);
+      timeInterval = setInterval(updatePisaTime, 60000);
+
+      overlay.classList.remove('hidden');
+      overlay.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+      // focus first link so keyboard navigation starts there
+      setActiveByIndex(0);
+      updateToggleLabel();
+    }
+    function closeModal() {
+      if (timeInterval) { clearInterval(timeInterval); timeInterval = null; }
+      overlay.classList.add('hidden');
+      overlay.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+      btn.focus();
+    }
+
+    // Toggle via click
+    btn.addEventListener('click', (e) => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      if (isOpen) closeModal(); else openModal();
+    });
+
+    // Toggle theme button
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        toggleTheme();
+      });
+    }
+
+    // If external theme buttons are clicked elsewhere, keep label in sync
+    [darkBtn, lightBtn].forEach((b) => {
+      if (b) b.addEventListener('click', () => setTimeout(updateToggleLabel, 50));
+    });
+
+    // Keyboard shortcuts + arrow navigation
+    window.addEventListener('keydown', (e) => {
+      // toggle with Ctrl/Cmd+K
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        if (isOpen) closeModal(); else openModal();
+        return;
+      }
+
+      // if palette closed, ignore other keys
+      if (overlay.classList.contains('hidden')) return;
+
+      // close with Escape
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeModal();
+        return;
+      }
+
+      // Arrow navigation and Enter
+      const links = getLinks();
+      if (!links.length) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const idx = links.indexOf(document.activeElement);
+        setActiveByIndex(idx + 1);
+        return;
+      }
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const idx = links.indexOf(document.activeElement);
+        setActiveByIndex(idx - 1);
+        return;
+      }
+      if (e.key === 'Enter') {
+        const active = document.activeElement;
+        if (active && active.tagName === 'A') {
+          e.preventDefault();
+          const href = active.getAttribute('href');
+          const target = active.getAttribute('target');
+          if (isSafeUrl(href)) {
+            safeNavigate(href, target);
+            closeModal();
+          } else {
+            console.warn('Blocked unsafe anchor via Enter:', href);
+          }
+        }
+      }
+    });
+
+    // Click interception + safe navigation
+    root.addEventListener('click', (evt) => {
+      const a = evt.target.closest('a');
+      if (!a || !root.contains(a)) return;
+      // update active on mouse click so visual state matches
+      const links = getLinks();
+      links.forEach((l) => l.classList.remove('cmd-active'));
+      if (a) a.classList.add('cmd-active');
+      const href = a.getAttribute('href');
+      const target = a.getAttribute('target');
+      if (!isSafeUrl(href)) {
+        evt.preventDefault();
+        console.warn('Blocked unsafe anchor:', href);
+        return;
+      }
+      if (!target || target === '_self') {
+        evt.preventDefault();
+        safeNavigate(href, target);
+        closeModal();
+      }
+    });
+
+    // Close when clicking overlay outside modal
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeModal();
+    });
+
+    // Basic focus trap while open
+    document.addEventListener('focusin', (e) => {
+      if (overlay.classList.contains('hidden')) return;
+      if (!overlay.contains(e.target)) {
+        const first = list.querySelector('a');
+        if (first) first.focus();
+      }
+    });
+
+    // cleanup on unload
+    window.addEventListener('beforeunload', () => {
+      if (timeInterval) clearInterval(timeInterval);
+    });
+
+    // initial label sync
+    updateToggleLabel();
+  })();
+</script>
