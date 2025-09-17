@@ -68,3 +68,7 @@ html #back-to-top {
 html.scrolled #back-to-top {
     @apply opacity-100 pointer-events-auto;
 }
+
+abbr{
+    text-underline-offset: 0.2em;
+}
