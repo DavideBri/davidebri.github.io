@@ -9,6 +9,10 @@ export default {
       fontFamily: {
         noto: ['"Noto Sans"', 'sans-serif'],
       },
+      colors: {
+        charcoal: "#18191bff",
+        paper: "#f7f6f1ff",
+      }
     },
   },
   plugins: [require("@tailwindcss/typography")],
