@@ -72,3 +72,7 @@ html.scrolled #back-to-top {
 abbr{
     text-underline-offset: 0.2em;
 }
+
+.cmd-active {
+  @apply bg-violet-100 dark:bg-violet-400/40 border-none;
+}
