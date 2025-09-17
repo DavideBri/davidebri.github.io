@@ -24,7 +24,7 @@ const work = await Promise.all(
     <Container>
         <div class="space-y-10">
         
-        <!-- <section class="animate py-20">
+        <!-- <section class="py-20">
             <h5 class="font-semibold text-black dark:text-white">
                 🔧 Tools i use
             </h5>
@@ -65,13 +65,13 @@ const work = await Promise.all(
         
         
         
-            <div class="animate font-semibold text-black dark:text-white">
+            <div class="font-semibold text-black dark:text-white">
                 👔 Work
             </div>
             <ul class="flex flex-col space-y-4">
                 {
                     work.map((entry) => (
-                        <li class="animate">
+                        <li>
                         
                             <div class="text-sm opacity-75">
                                     {entry.data.dateStart.toLocaleString("default", { month: "short" }) +
@@ -93,7 +93,7 @@ const work = await Promise.all(
                 }
             </ul>
 
-        <section class="animate py-20">
+        <section class="py-20">
             <h5 class="font-semibold text-black dark:text-white">
                 📮 Let's Connect
             </h5>
