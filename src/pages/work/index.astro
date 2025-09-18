@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
-// import { dateRange } from "@lib/utils";
+import BackToPrev from "@components/BackToPrev.astro";
 import { SITE, WORK, SOCIALS } from "@consts";
 import Link from "@components/Link.astro";
 
@@ -22,6 +22,11 @@ const work = await Promise.all(
 
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
     <Container>
+    <div>
+        <BackToPrev href="/">
+            Back home
+        </BackToPrev>
+    </div>
         <div class="space-y-10">
         
         <!-- <section class="py-20">
