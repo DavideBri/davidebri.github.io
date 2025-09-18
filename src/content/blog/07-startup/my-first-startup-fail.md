@@ -1,6 +1,6 @@
 ---
 title: My Experience in a Startup Accelerator
-description: A candid tale of my first startup's downfall - filled with mistakes, misjudgments and valuable wisdom gained the hard way.
+description: reflection on lessons learned and personal growth from a failed startup accelerator experience
 date: "21 Mar 2023"
 ---
 
