@@ -13,7 +13,6 @@ import { SITE } from "@consts";
   >
     <span class="tracking-tight">⌘K</span>
   </button>
-
   <!-- Overlay + Modal -->
   <div
     id="cmdpalette-overlay"
@@ -38,7 +37,6 @@ import { SITE } from "@consts";
           Lights off
         </button>
       </div>
-
       <!-- List -->
       <div class="px-6 py-4">
         <h4 class="text-sm text-gray-500 dark:text-gray-400 mb-2">Pages</h4>
@@ -51,12 +49,12 @@ import { SITE } from "@consts";
             </a>
           </li>
           <li>
-          <li>
             <a href="/blog" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-400/40 text-sm">
               <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M18 5V4a1 1 0 0 0-1-1H8.914a1 1 0 0 0-.707.293L4.293 7.207A1 1 0 0 0 4 7.914V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5M9 3v4a1 1 0 0 1-1 1H4m11.383.772 2.745 2.746m1.215-3.906a2.089 2.089 0 0 1 0 2.953l-6.65 6.646L9 17.95l.739-3.692 6.646-6.646a2.087 2.087 0 0 1 2.958 0Z" stroke="currentColor" stroke-width="1.5"/></svg>
               <span>Posts</span>
             </a>
           </li>
+          <li>
             <a href="/about" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-400/40 text-sm">
               <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke="currentColor"  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span>About</span>
@@ -68,7 +66,6 @@ import { SITE } from "@consts";
               <span>Bookshelf</span>
             </a>
           </li>
-
           <li class="pt-4">
             <h4 class="text-sm text-gray-500 dark:text-gray-400 mb-2">Info</h4>
             <ul class="space-y-2">
@@ -88,7 +85,6 @@ import { SITE } from "@consts";
           </li>
         </ul>
       </div>
-
       <!-- Footer -->
       <div class="flex items-center justify-between px-6 py-4 bg-gray-300/20 dark:bg-gray-100/20 border-t border-gray-100 dark:border-gray-800 text-sm">
         <a href={`mailto:${SITE.EMAIL}`} class="text-sm text-gray-600 dark:text-gray-300 truncate">{SITE.EMAIL}</a>
@@ -100,7 +96,6 @@ import { SITE } from "@consts";
     </div>
   </div>
 </div>
-
 <!-- local styling to pick up blog accent color if provided -->
 <style>
   :root {
@@ -109,266 +104,324 @@ import { SITE } from "@consts";
   .cp-accent { color: var(--site-accent); }
   .cp-accent:focus, .cp-accent:active { outline: none; }
 </style>
-
 <script type="module">
+  // Use a namespace to avoid global conflicts and manage state properly
+  window.CommandPalette = window.CommandPalette || {};
+  
   (function () {
-    // Basic element refs
-    const btn = document.getElementById('cmdpalette-btn');
-    const overlay = document.getElementById('cmdpalette-overlay');
-    const list = document.getElementById('cmdpalette-list');
-    const timeEl = document.getElementById('cmdpalette-time');
-    const toggleBtn = document.getElementById('cmdpalette-toggle-theme');
-    const root = document.getElementById('cmdpalette-root');
-
-    if (!btn || !overlay || !list || !root) {
-      console.warn('CommandPalette: missing required elements');
-      return;
+    // Clean up any existing instance
+    if (window.CommandPalette.cleanup) {
+      window.CommandPalette.cleanup();
     }
-
-    // Theme buttons that already exist elsewhere in your UI
-    const darkBtn = document.getElementById('dark-theme-button');
-    const lightBtn = document.getElementById('light-theme-button');
-
-    // Safe navigation config (allowlist via window.__SITE__ if provided)
-    const allowedHosts = Array.isArray(window.__SITE__?.ALLOWED_HOSTS) ? window.__SITE__.ALLOWED_HOSTS : [];
-
-    function isSafeUrl(href) {
-      if (!href || typeof href !== 'string') return false;
-      if (href.startsWith('/')) return true;
-      if (href.startsWith('mailto:') || href.startsWith('tel:')) return true;
-      try {
-        const parsed = new URL(href, location.origin);
-        if (parsed.origin === location.origin) return true;
-        if (allowedHosts.includes(parsed.hostname) || allowedHosts.includes(parsed.host)) return true;
-        return false;
-      } catch (e) {
-        return false;
-      }
-    }
-
-    function safeNavigate(href, target) {
-      if (!isSafeUrl(href)) {
-        console.warn('Blocked navigation to unsafe URL:', href);
+    
+    // Store references and state
+    const state = {
+      timeInterval: null,
+      listeners: new Map(),
+      abortController: null
+    };
+    
+    function initCommandPalette() {
+      const btn = document.getElementById('cmdpalette-btn');
+      const overlay = document.getElementById('cmdpalette-overlay');
+      const list = document.getElementById('cmdpalette-list');
+      const timeEl = document.getElementById('cmdpalette-time');
+      const toggleBtn = document.getElementById('cmdpalette-toggle-theme');
+      const root = document.getElementById('cmdpalette-root');
+      const darkBtn = document.getElementById('dark-theme-button');
+      const lightBtn = document.getElementById('light-theme-button');
+      const allowedHosts = Array.isArray(window.__SITE__?.ALLOWED_HOSTS) ? window.__SITE__.ALLOWED_HOSTS : [];
+      
+      if (!btn || !overlay || !list || !root) {
+        console.warn('CommandPalette: missing required elements');
         return;
       }
-      if (target === '_blank') window.open(href, '_blank', 'noopener');
-      else window.location.assign(href);
-    }
-
-    // Pisa time
-    function updatePisaTime() {
-      try {
-        const now = new Date();
-        const opts = { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Europe/Rome' };
-        const formatted = new Intl.DateTimeFormat(undefined, opts).format(now);
-        timeEl.textContent = `Pisa, ${formatted}`;
-      } catch (e) {
-        timeEl.textContent = 'Pisa';
-      }
-    }
-
-    let timeInterval = null;
-
-    // Helpers for keyboard browsing
-    function getLinks() {
-      if (!list) return [];
-      return Array.from(list.querySelectorAll('a[href]'));
-    }
-
-    function focusIndex(idx) {
-      const links = getLinks();
-      if (!links.length) return;
-      const clamped = ((idx % links.length) + links.length) % links.length;
-      links[clamped].focus();
-    }
-
-    function setActiveByIndex(idx) {
-      const links = getLinks();
-      if (!links.length) return;
-      const clamped = ((idx % links.length) + links.length) % links.length;
-      links.forEach(l => l.classList.remove('cmd-active'));
-      links[clamped].classList.add('cmd-active');
-      links[clamped].focus();
-    }
-
-    // Theme helpers
-    function isDarkMode() {
-      return document.documentElement.classList.contains('dark') || localStorage.getItem('theme') === 'dark';
-    }
-
-    function updateToggleLabel() {
-      if (!toggleBtn) return;
-      toggleBtn.textContent = isDarkMode() ? 'Lights on' : 'Lights off';
-    }
-
-    function toggleTheme() {
-      // Prefer existing theme buttons if present
-      if (isDarkMode()) {
-        // currently dark -> switch to light
-        if (lightBtn) {
-          lightBtn.click();
-        } else {
-          document.documentElement.classList.remove('dark');
-          localStorage.setItem('theme', 'light');
-        }
-      } else {
-        // currently light -> switch to dark
-        if (darkBtn) {
-          darkBtn.click();
-        } else {
-          document.documentElement.classList.add('dark');
-          localStorage.setItem('theme', 'dark');
+      
+      // Create AbortController for easy cleanup
+      state.abortController = new AbortController();
+      const signal = state.abortController.signal;
+      
+      function isSafeUrl(href) {
+        if (!href || typeof href !== 'string') return false;
+        if (href.startsWith('/')) return true;
+        if (href.startsWith('mailto:') || href.startsWith('tel:')) return true;
+        try {
+          const parsed = new URL(href, location.origin);
+          if (parsed.origin === location.origin) return true;
+          if (allowedHosts.includes(parsed.hostname) || allowedHosts.includes(parsed.host)) return true;
+          return false;
+        } catch (e) {
+          return false;
         }
       }
-      // update label after short delay in case external buttons change DOM/class
-      setTimeout(updateToggleLabel, 50);
-    }
-
-    function focusFirstLink() {
-      const links = list.querySelectorAll('a[href]');
-      if (links.length) {
-        links[0].focus();
-        // Optionally, add a class for visual "selected" state
+      
+      function safeNavigate(href, target) {
+        if (!isSafeUrl(href)) {
+          console.warn('Blocked navigation to unsafe URL:', href);
+          return;
+        }
+        if (target === '_blank') window.open(href, '_blank', 'noopener');
+        else window.location.assign(href);
+      }
+      
+      function updatePisaTime() {
+        try {
+          const now = new Date();
+          const opts = { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Europe/Rome' };
+          const formatted = new Intl.DateTimeFormat(undefined, opts).format(now);
+          if (timeEl) timeEl.textContent = `Pisa, ${formatted}`;
+        } catch (e) {
+          if (timeEl) timeEl.textContent = 'Pisa';
+        }
+      }
+      
+      function getLinks() {
+        if (!list) return [];
+        return Array.from(list.querySelectorAll('a[href]'));
+      }
+      
+      function setActiveByIndex(idx) {
+        const links = getLinks();
+        if (!links.length) return;
+        const clamped = ((idx % links.length) + links.length) % links.length;
         links.forEach(l => l.classList.remove('cmd-active'));
-        links[0].classList.add('cmd-active');
+        links[clamped].classList.add('cmd-active');
+        links[clamped].focus();
       }
-    }
-    // Open/close helpers
-    function openModal() {
-      updatePisaTime();
-      if (timeInterval) clearInterval(timeInterval);
-      timeInterval = setInterval(updatePisaTime, 60000);
-
-      overlay.classList.remove('hidden');
-      overlay.setAttribute('aria-hidden', 'false');
-      btn.setAttribute('aria-expanded', 'true');
-      document.documentElement.style.overflow = 'hidden';
-      // focus first link so keyboard navigation starts there
-      focusFirstLink();
-      updateToggleLabel();
-    }
-    function closeModal() {
-      if (timeInterval) { clearInterval(timeInterval); timeInterval = null; }
-      overlay.classList.add('hidden');
-      overlay.setAttribute('aria-hidden', 'true');
-      btn.setAttribute('aria-expanded', 'false');
-      document.documentElement.style.overflow = '';
-      btn.focus();
-    }
-
-    // Toggle via click
-    btn.addEventListener('click', (e) => {
-      const isOpen = btn.getAttribute('aria-expanded') === 'true';
-      if (isOpen) closeModal(); else openModal();
-    });
-
-    // Toggle theme button
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleTheme();
-      });
-    }
-
-    // If external theme buttons are clicked elsewhere, keep label in sync
-    [darkBtn, lightBtn].forEach((b) => {
-      if (b) b.addEventListener('click', () => setTimeout(updateToggleLabel, 50));
-    });
-
-    // Keyboard shortcuts + arrow navigation
-    window.addEventListener('keydown', (e) => {
-      // toggle with Ctrl/Cmd+K
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        const isOpen = btn.getAttribute('aria-expanded') === 'true';
-        if (isOpen) closeModal(); else openModal();
-        return;
+      
+      function isDarkMode() {
+        return document.documentElement.classList.contains('dark') || localStorage.getItem('theme') === 'dark';
       }
-
-      // if palette closed, ignore other keys
-      if (overlay.classList.contains('hidden')) return;
-
-      // close with Escape
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        closeModal();
-        return;
+      
+      function updateToggleLabel() {
+        if (!toggleBtn) return;
+        toggleBtn.textContent = isDarkMode() ? 'Lights on' : 'Lights off';
       }
-
-      // Arrow navigation and Enter
-      const links = getLinks();
-      if (!links.length) return;
-
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        const idx = links.indexOf(document.activeElement);
-        setActiveByIndex(idx + 1);
-        return;
-      }
-      if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        const idx = links.indexOf(document.activeElement);
-        setActiveByIndex(idx - 1);
-        return;
-      }
-      if (e.key === 'Enter') {
-        const active = document.activeElement;
-        if (active && active.tagName === 'A') {
-          e.preventDefault();
-          const href = active.getAttribute('href');
-          const target = active.getAttribute('target');
-          if (isSafeUrl(href)) {
-            safeNavigate(href, target);
-            closeModal();
+      
+      function toggleTheme() {
+        if (isDarkMode()) {
+          if (lightBtn) {
+            lightBtn.click();
           } else {
-            console.warn('Blocked unsafe anchor via Enter:', href);
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+          }
+        } else {
+          if (darkBtn) {
+            darkBtn.click();
+          } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
           }
         }
+        setTimeout(updateToggleLabel, 50);
       }
-    });
-
-    // Click interception + safe navigation
-    root.addEventListener('click', (evt) => {
-      const a = evt.target.closest('a');
-      if (!a || !root.contains(a)) return;
-      // update active on mouse click so visual state matches
-      const links = getLinks();
-      links.forEach((l) => l.classList.remove('cmd-active'));
-      if (a) a.classList.add('cmd-active');
-      const href = a.getAttribute('href');
-      const target = a.getAttribute('target');
-      if (!isSafeUrl(href)) {
-        evt.preventDefault();
-        console.warn('Blocked unsafe anchor:', href);
-        return;
+      
+      function focusFirstLink() {
+        const links = list.querySelectorAll('a[href]');
+        if (links.length) {
+          links[0].focus();
+          links.forEach(l => l.classList.remove('cmd-active'));
+          links[0].classList.add('cmd-active');
+        }
       }
-      if (!target || target === '_self') {
-        evt.preventDefault();
-        safeNavigate(href, target);
-        closeModal();
+      
+      function openModal() {
+        updatePisaTime();
+        if (state.timeInterval) clearInterval(state.timeInterval);
+        state.timeInterval = setInterval(updatePisaTime, 60000);
+        overlay.classList.remove('hidden');
+        overlay.setAttribute('aria-hidden', 'false');
+        btn.setAttribute('aria-expanded', 'true');
+        document.documentElement.style.overflow = 'hidden';
+        focusFirstLink();
+        updateToggleLabel();
       }
-    });
-
-    // Close when clicking overlay outside modal
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeModal();
-    });
-
-    // Basic focus trap while open
-    document.addEventListener('focusin', (e) => {
-      if (overlay.classList.contains('hidden')) return;
-      if (!overlay.contains(e.target)) {
-        const first = list.querySelector('a');
-        if (first) first.focus();
+      
+      function closeModal() {
+        if (state.timeInterval) { 
+          clearInterval(state.timeInterval); 
+          state.timeInterval = null; 
+        }
+        overlay.classList.add('hidden');
+        overlay.setAttribute('aria-hidden', 'true');
+        btn.setAttribute('aria-expanded', 'false');
+        document.documentElement.style.overflow = '';
+        btn.focus();
+        if (list) {
+          Array.from(list.querySelectorAll('.cmd-active')).forEach(l => l.classList.remove('cmd-active'));
+        }
       }
+      
+      function resetModalState() {
+        if (!overlay || !btn || !list) return;
+        overlay.classList.add('hidden');
+        overlay.setAttribute('aria-hidden', 'true');
+        btn.setAttribute('aria-expanded', 'false');
+        document.documentElement.style.overflow = '';
+        if (list) {
+          Array.from(list.querySelectorAll('.cmd-active')).forEach(l => l.classList.remove('cmd-active'));
+        }
+      }
+      
+      // Event handlers
+      const handleBtnClick = (e) => {
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        if (isOpen) closeModal(); else openModal();
+      };
+      
+      const handleToggleClick = (e) => {
+        e.preventDefault();
+        toggleTheme();
+      };
+      
+      const handleKeydown = (e) => {
+        const tag = document.activeElement?.tagName;
+        const isEditable = document.activeElement?.isContentEditable;
+        
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || isEditable) {
+          return;
+        }
+        
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          const isOpen = btn?.getAttribute('aria-expanded') === 'true';
+          if (isOpen) closeModal(); else openModal();
+          return;
+        }
+        
+        if (!overlay || overlay.classList.contains('hidden')) return;
+        
+        if (e.key === 'Escape') {
+          e.preventDefault();
+          closeModal();
+          return;
+        }
+        
+        const links = getLinks();
+        if (!links.length) return;
+        
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          const idx = links.indexOf(document.activeElement);
+          setActiveByIndex(idx + 1);
+          return;
+        }
+        
+        if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          const idx = links.indexOf(document.activeElement);
+          setActiveByIndex(idx - 1);
+          return;
+        }
+        
+        if (e.key === 'Enter') {
+          const active = document.activeElement;
+          if (active && active.tagName === 'A') {
+            e.preventDefault();
+            const href = active.getAttribute('href');
+            const target = active.getAttribute('target');
+            if (isSafeUrl(href)) {
+              safeNavigate(href, target);
+              closeModal();
+            } else {
+              console.warn('Blocked unsafe anchor via Enter:', href);
+            }
+          }
+        }
+      };
+      
+      const handleRootClick = (evt) => {
+        const a = evt.target.closest('a');
+        if (!a || !root.contains(a)) return;
+        
+        const links = getLinks();
+        links.forEach((l) => l.classList.remove('cmd-active'));
+        if (a) a.classList.add('cmd-active');
+        
+        const href = a.getAttribute('href');
+        const target = a.getAttribute('target');
+        
+        if (!isSafeUrl(href)) {
+          evt.preventDefault();
+          console.warn('Blocked unsafe anchor:', href);
+          return;
+        }
+        
+        if (!target || target === '_self') {
+          evt.preventDefault();
+          safeNavigate(href, target);
+          closeModal();
+        }
+      };
+      
+      const handleOverlayClick = (e) => {
+        if (e.target === overlay) closeModal();
+      };
+      
+      const handleFocusin = (e) => {
+        if (!overlay || overlay.classList.contains('hidden')) return;
+        if (!overlay.contains(e.target)) {
+          const first = list?.querySelector('a');
+          if (first) first.focus();
+        }
+      };
+      
+      const handleThemeButtonClick = () => setTimeout(updateToggleLabel, 50);
+      
+      // Attach event listeners with signal for easy cleanup
+      btn.addEventListener('click', handleBtnClick, { signal });
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', handleToggleClick, { signal });
+      }
+      
+      [darkBtn, lightBtn].forEach((b) => {
+        if (b) b.addEventListener('click', handleThemeButtonClick, { signal });
+      });
+      
+      window.addEventListener('keydown', handleKeydown, { signal });
+      root.addEventListener('click', handleRootClick, { signal });
+      overlay.addEventListener('click', handleOverlayClick, { signal });
+      document.addEventListener('focusin', handleFocusin, { signal });
+      window.addEventListener('pageshow', resetModalState, { signal });
+      document.addEventListener('astro:after-swap', resetModalState, { signal });
+      
+      // Initial setup
+      resetModalState();
+      updateToggleLabel();
+    }
+    
+    // Cleanup function
+    window.CommandPalette.cleanup = function() {
+      if (state.timeInterval) {
+        clearInterval(state.timeInterval);
+        state.timeInterval = null;
+      }
+      if (state.abortController) {
+        state.abortController.abort();
+        state.abortController = null;
+      }
+    };
+    
+    // Initialize immediately
+    initCommandPalette();
+    
+    // Re-initialize after Astro swaps
+    document.addEventListener('astro:after-swap', () => {
+      // Small delay to ensure DOM is ready
+      setTimeout(() => {
+        if (window.CommandPalette.cleanup) {
+          window.CommandPalette.cleanup();
+        }
+        initCommandPalette();
+      }, 10);
     });
-
-    // cleanup on unload
+    
+    // Cleanup on page unload
     window.addEventListener('beforeunload', () => {
-      if (timeInterval) clearInterval(timeInterval);
+      if (window.CommandPalette.cleanup) {
+        window.CommandPalette.cleanup();
+      }
     });
-
-    // initial label sync
-    updateToggleLabel();
   })();
 </script>
