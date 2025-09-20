@@ -5,7 +5,7 @@
 
 
 ::selection {
-    @apply bg-violet-300/20
+    @apply bg-violet-300/40
 }
 
 .dark ::selection {
@@ -74,5 +74,5 @@ abbr{
 }
 
 .cmd-active {
-  @apply bg-violet-100 dark:bg-violet-400/40 border-none;
+  @apply bg-violet-200 dark:bg-violet-400/40 border-none;
 }
