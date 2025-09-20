@@ -35,113 +35,39 @@ const work = await Promise.all(
         <div class="text-center text-black dark:text-white">
             {WORK.DESCRIPTION}
         </div>
-        </div>
-        <!-- <section class="py-20">
-            <h5 class="font-semibold text-black dark:text-white">
-                🔧 Tools i use
-            </h5>
-            <article>
-                <p>
-                    Wanna talk about some WEB3 stuff? Looking for speakers
-                    at a conference? Learn to gesticulate like a real
-                    Italian?
-                    <br />Don't hesitate to get in touch, just to chat or
-                    for anything you need!
-                </p>
-            </article>
-            <ul class="flex flex-wrap gap-2">
-                {
-                    SOCIALS.map((SOCIAL) => (
-                        <li class="flex gap-x-2 text-nowrap">
-                            <Link
-                                href={SOCIAL.HREF}
-                                external
-                                aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}
-                            >
-                                {SOCIAL.NAME}
-                            </Link>
-                            {"/"}
-                        </li>
-                    ))
-                }
-                <li class="line-clamp-1">
-                    <Link
-                        href={`mailto:${SITE.EMAIL}`}
-                        aria-label={`Email ${SITE.NAME}`}
-                    >
-                        {SITE.EMAIL}
-                    </Link>
-                </li>
-            </ul>
-        </section> -->
-        
-        
-        
+        </div> 
 
-            <ul class="flex flex-col space-y-4">
-                {
-                    work.map((entry) => (
-                        <li>
-                        
-                            <div class="text-sm opacity-75">
-                                    {entry.data.dateStart.toLocaleString("default", { month: "short" }) +
-                                    entry.data.dateStart.getFullYear().toString()}
-                            </div>
-                            <a href={entry.data.url} class="font-semibold text-black dark:text-white hover:underline" target="_blank" rel="noopener noreferrer">
-                                {entry.data.company}
-                            </a>
-                            <div class="text-sm opacity-75">
-                                {entry.data.role}
-                            </div>
-                            <article>
-                                <entry.Content />
-                            </article>
+        <ul class="flex flex-col space-y-4">
+            {
+                work.map((entry) => (
+                    <li>
+                    
+                        <div class="text-sm opacity-75">
+                                {entry.data.dateStart.toLocaleString("default", { month: "short" }) +
+                                entry.data.dateStart.getFullYear().toString()}
+                        </div>
+                        <a href={entry.data.url} class="font-semibold text-black dark:text-white hover:underline" target="_blank" rel="noopener noreferrer">
+                            {entry.data.company}
+                        </a>
+                        <div class="text-sm opacity-75">
+                            {entry.data.role}
+                        </div>
+                        <article>
+                            <entry.Content />
+                        </article>
 
-                        </li>
-                        
-                    ))
-                }
-            </ul>
-            <div class="my-6 flex justify-center">
-                <div class="rounded-xl bg-gray-100/20 dark:bg-gray-800/20 px-6 py-3 text-center text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 max-w">
-                    Want the full resume? <a href={`mailto:${SITE.EMAIL}`} class="underline font-semibold hover:text-violet-700 dark:hover:text-violet-300">Shoot me an email</a> and I'll send it over!
-                </div>
+                    </li>
+                    
+                ))
+            }
+        </ul>
+        
+        <div class="my-6 flex justify-center">
+            <div class="rounded-xl bg-gray-100/20 dark:bg-gray-800/20 px-6 py-3 text-center text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 max-w">
+                Want the full resume? <a href={`mailto:${SITE.EMAIL}`} class="underline font-semibold hover:text-violet-700 dark:hover:text-violet-300">Shoot me an email</a> and I'll send it over!
             </div>
-        <section class="py-20">
-            <h5 class="font-semibold text-black dark:text-white">
-                📮 Let's Connect
-            </h5>
-            <article>
-                <p>
-                    Interested in Web3? 🌐<br>Looking for speakers for your next conference? 🗣️<br>Want to master the art of gesturing like a true Italian? 🤌🏻
-                    <br />Feel free to reach out—whether it’s just to chat, collaborate, or share ideas!
-                </p>
-            </article>
-            <ul class="flex flex-wrap gap-2">
-                {
-                    SOCIALS.map((SOCIAL) => (
-                        <li class="flex gap-x-2 text-nowrap">
-                            <Link
-                                href={SOCIAL.HREF}
-                                external
-                                aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}
-                            >
-                                {SOCIAL.NAME}
-                            </Link>
-                            {"/"}
-                        </li>
-                    ))
-                }
-                <li class="line-clamp-1">
-                    <Link
-                        href={`mailto:${SITE.EMAIL}`}
-                        aria-label={`Email ${SITE.NAME}`}
-                    >
-                        {SITE.EMAIL}
-                    </Link>
-                </li>
-            </ul>
-        </section>
         </div>
+
+    </div>
     </Container>
 </PageLayout>
