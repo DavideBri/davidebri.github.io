@@ -1,0 +1,186 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import BackToPrev from "@components/BackToPrev.astro";
+import { SITE } from "@consts";
+import Link from "@components/Link.astro";
+---
+
+<PageLayout title="Colophon" description="Details about the website and its creation">
+    <Container>
+        <!-- Header -->
+        <div class="mb-12">
+            <BackToPrev href="/">
+                Back home
+            </BackToPrev>
+        </div>
+
+        <!-- Title Section -->
+        <div class="space-y-10">
+            <div class="space-y-1 my-6">
+                <div class="font-semibold text-center text-2xl text-black dark:text-white">
+                    🧰
+                </div>
+            <div class="text-center text-black dark:text-white">
+                Details about the website and its creation  
+            </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="space-y-16">
+
+        <!-- Stack -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="md:col-span-1">
+                <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Stack
+                </h2>
+            </div>
+            <div class="md:col-span-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex justify-between items-center py-2 border-b border-gray-300 dark:border-gray-800">
+                        <span class="text-black dark:text-white font-medium">Framework</span>
+                        <Link href="https://astro.build">
+                            Astro
+                        </Link>
+                    </div>
+                    
+                    <div class="flex justify-between items-center py-2 border-b border-gray-300 dark:border-gray-800">
+                        <span class="text-black dark:text-white font-medium">Styling</span>
+                        <Link href="https://tailwindcss.com">
+                            Tailwind CSS
+                        </Link>
+                    </div>
+                    
+                    <div class="flex justify-between items-center py-2 border-b border-gray-300 dark:border-gray-800">
+                        <span class="text-black dark:text-white font-medium">Icons</span>
+                        <Link href="https://flowbite.com/icons/">
+                            Flowbite
+                        </Link>
+                    </div>
+                    
+                    <div class="flex justify-between items-center py-2 border-b border-gray-300 dark:border-gray-800">
+                        <span class="text-black dark:text-white font-medium">Hosting</span>
+                        <Link href="https://pages.github.com/">
+                            GitHub Pages
+                        </Link>
+                    </div>
+                    
+                    <div class="flex justify-between items-center py-2 md:col-span-2">
+                        <span class="text-black dark:text-white font-medium">Version</span>
+                        <span class="text-gray-600 dark:text-gray-400">2.0 (Sept 2025)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            <!-- Typography -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                    <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Typography
+                    </h2>
+                </div>
+                <div class="md:col-span-3">
+                    <p class="text-black dark:text-white leading-relaxed">
+                        The site features the <Link href="https://en.wikipedia.org/wiki/Noto_fonts">
+                            <b>Noto Fonts</b>
+                        </Link>, a collaboration between Google and Monotype,
+                        aimed to provide a single, consistent typographic experience  
+                        across all languages, supporting literacy, accessibility, and inclusivity on the internet.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Design Philosophy -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                    <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Design
+                    </h2>
+                </div>
+                <div class="md:col-span-3">
+                    <p class="text-black dark:text-white leading-relaxed mb-6">
+                        Based on the
+                        <Link href="https://astro.build/themes/details/astronano/">
+                            Astro Nano
+                        </Link>
+                        , this minimal design was inspired by
+                        <Link href="https://www.cassandratang.com/">
+                            Cassandra Tang
+                        </Link> and 
+                        <Link href="https://www.fabianschultz.com/">
+                            Fabian Schultz
+                        </Link> personal websites discovered on 
+                        <Link href="https://deadsimplesites.com/">
+                            Dead Simple Sites
+                        </Link>
+                    </p>
+                </div>
+            </section>
+            <!-- Site Info -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                    <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Site
+                    </h2>
+                </div>
+                <div class="md:col-span-3">
+                     <p class="text-black dark:text-white leading-relaxed mb-5">
+                        The custom <strong>Quick Menu</strong> (<kbd class="bg-black/5 dark:bg-white/5 px-2 py-1 rounded text-sm font-mono">⌘K</kbd>) 
+                        provides quick navigation with keyboard shortcuts and theme toggling.
+                    </p>
+                    <p class="text-black dark:text-white leading-relaxed mb-4">
+                        Designed with care, built with <strong>performance</strong> and <strong>accessibility</strong> 
+                        in mind. Only
+                            <Link href="https://www.websitecarbon.com/website/davidebri-github-io/">
+                            0.02g of CO²
+                        </Link> is produced every time someone visits this web page.
+                    </p>
+                    
+                </div>
+            </section>
+
+            <!-- Open Source -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                    <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Open Source
+                    </h2>
+                </div>
+                <div class="md:col-span-3">
+                    <p class="text-black dark:text-white leading-relaxed">
+                        This site is open source and available on 
+                        <Link href="https://github.com">
+                            GitHub
+                        </Link>.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-1">
+                    <h2 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        Contact
+                    </h2>
+                </div>
+                <div class="md:col-span-3">
+                    <p class="text-black dark:text-white leading-relaxed">
+                        Bug or suggestion? Send me 
+                        <a href={`mailto:${SITE.EMAIL}`} class="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                            an email
+                        </a>.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-center text-sm text-gray-500 dark:text-gray-400 italic">
+                A small corner of the web, thoughtfully crafted.
+            </p>
+        </footer>
+    </Container>
+</PageLayout>
