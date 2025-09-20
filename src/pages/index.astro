@@ -7,7 +7,6 @@ import Link from "@components/Link.astro";
 import CommandPalette from "@components/CommandPalette.astro";
 import { SITE, HOME, SOCIALS } from "@consts";
 
-
 const blog = (await getCollection("blog"))
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
@@ -25,123 +24,130 @@ const allwork = (await getCollection("work"))
             new Date(a.data.dateStart).valueOf(),
     )
     .slice(0, SITE.NUM_WORKS_ON_HOMEPAGE);
-
-// const work = await Promise.all(
-//     allwork.map(async (item) => {
-//         const { Content } = await item.render();
-//         return { ...item, Content };
-//     }),
-// );
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
     <Container>
-        <div class="space-y-16">
-            <section class="flex items-center gap-8"> <!-- Added flex container -->
-                <!-- Profile Image -->
-                <div class="shrink-0"> <!-- shrink-0 prevents image from shrinking -->
+        <div class="space-y-20">
+            <!-- Hero Section -->
+            <section class="pt-8">
+                <div class="flex items-center gap-6 mb-8">
                     <img
                         src="/propic.jpg"
                         alt="Davide's profile picture"
-                        class="w-28 h-28 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+                        class="w-24 h-24 rounded-full object-cover ring-2 ring-violet-300/20"
                     />
+                    <div>
+                        <h1 class="text-3xl font-medium text-black dark:text-white mb-2">
+                            Davide Brienza
+                        </h1>
+                        <p class="text-gray-600 dark:text-gray-400 text-lg">
+                            @DavideBri
+                        </p>
+                    </div>
                 </div>
-                <!-- Bio -->
-                <section>
-                <h4 class="font-semibold text-black dark:text-white ">
-                    <span class="text-xl">👋🏻</span> Hello there!
-                </h4>
-                    <article>
-                        <p>
-                            I'm Davide, 25 y/o CS student from Pisa, who loves explore everything that requires
-                            inventiveness and reasoning.
-                        </p>
-                    </article>
-                </section>
+                
+                <div class="max-w-2xl">
+                    <p class="text-md leading-7 text-gray-800 dark:text-gray-200 mb-8 max-w-2xl">
+                        Backend developer from Pisa who gets obsessively curious about things. <br>
+                        Currently deep in the decentralized networks rabbit hole.<br>
+                        When I'm not coding, I'm either spiking volleyballs, 
+                        fixing/building random stuff, or gesturing dramatically while talking.
+                    </p>
+                <div class="border-l-4 border-gray-300 dark:border-gray-600 pl-2">
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                        Fun fact: my YouTube history is 40% tech talks, 30% DIY tutorials, 30% volleyball clips
+                    </p>
+                </div>
             </section>
-            <article>
-                <p> Below, you'll find things
-                <abbr title="written by me, grammar checked by quillbot :)">I've written</abbr> about topics that captured my interest,
-                along with some personal reflections I'd like to share.</p>
-            </article>
-            
-                <section class="space-y-6">
-                    <div
-                        class="flex flex-wrap gap-y-2 items-center justify-between"
-                    >
-                        <h5 class="font-semibold text-black dark:text-white">
-                            📜 Latest posts
-                        </h5>
-                        <Link href="/blog"> See all posts </Link>
-                    </div>
-                    <ul class="flex flex-col gap-4">
-                        {
-                            blog.map((post) => (
-                                <li>
-                                    <ArrowCard entry={post} />
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </section>
 
+            <!-- Latest Posts -->
+            <section>
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-xl font-medium text-black dark:text-white">
+                        Latest posts
+                    </h2>
+                    <Link href="/blog">
+                        See all posts →
+                    </Link>
+                </div>
+                
+                <div class="space-y-3">
+                    {blog.map((post) => (
+                        <div class="border-b border-gray-100 dark:border-gray-800 last:border-0">
+                            <ArrowCard entry={post} />
+                        </div>
+                    ))}
+                </div>
+            </section>
 
-                <section class="space-y-6">
-                    <div
-                        class="flex flex-wrap gap-y-2 items-center justify-between"
-                    >
-                        <h5 class="font-semibold text-black dark:text-white">
-                            💻 Recent projects
-                        </h5>
-                        <Link href="/projects"> See all projects </Link>
-                    </div>
-                    <ul class="flex flex-col gap-4">
-                        {
-                            projects.map((project) => (
-                                <li>
-                                    <ArrowCard entry={project} />
-                                </li>
-                            ))
-                        }
-                    </ul>
-                </section>
+            <!-- Recent Projects -->
+            <section>
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-xl font-medium text-black dark:text-white">
+                        Recent projects
+                    </h2>
+                    <Link href="/projects">
+                        See all projects →
+                    </Link>
+                </div>
+                
+                <div class="space-y-3">
+                    {projects.map((project) => (
+                        <div class="border-b border-gray-100 dark:border-gray-800 last:border-0">
+                            <ArrowCard entry={project} />
+                        </div>
+                    ))}
+                </div>
+            </section>
 
-                <section class="space-y-4">
-                    <h5 class="font-semibold text-black dark:text-white">
-                        📮 Let's Connect
-                    </h5>
-                    <article>
-                        <p>
-                            Interested in Web3? 🌐<br>Looking for speakers for your next conference? 🗣️<br>Want to master the art of gesturing like a true Italian? 🤌🏻
-                            <br />Feel free to reach out—whether it’s just to chat, collaborate, or share ideas!
+            <!-- Connect Section -->
+            <section>
+                <h2 class="text-xl font-medium text-black dark:text-white mb-6">
+                    Let's Connect
+                </h2>
+                
+                <div class="space-y-6">
+                    <div class="max-w-2xl">
+                        <p class="text-black dark:text-white leading-relaxed mb-4">
+                            Interested in Web3? <br> Looking for speakers for your next conference? <br>
+                            Want to master the art of gesturing like a true Italian? <br>
                         </p>
-                    </article>
-                    <ul class="flex flex-wrap gap-2">
-                        {
-                            SOCIALS.map((SOCIAL) => (
-                                <li class="flex gap-x-2 text-nowrap">
-                                    <Link
-                                        href={SOCIAL.HREF}
-                                        external
-                                        aria-label={`${SITE.NAME} on ${SOCIAL.NAME}`}
-                                    >
-                                        {SOCIAL.NAME}
-                                    </Link>
-                                    {"/"}
-                                </li>
-                            ))
-                        }
-                        <li class="line-clamp-1">
+                        <p class="text-gray-600 dark:text-gray-400">
+                            Feel free to reach out—whether it's just to chat, collaborate, or share ideas!
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-4 text-sm">
+                        {SOCIALS.map((social, index) => (
+                            <span class="flex items-center gap-2">
+                                <Link
+                                    href={social.HREF}
+                                    external
+                                    aria-label={`${SITE.NAME} on ${social.NAME}`}
+                                >
+                                    {social.NAME}
+                                </Link>
+                                {index < SOCIALS.length - 1 && (
+                                    <span class="text-gray-300 dark:text-gray-700">/</span>
+                                )}
+                            </span>
+                        ))}
+                        <span class="flex items-center gap-2">
+                            <span class="text-gray-300 dark:text-gray-700">/</span>
                             <Link
                                 href={`mailto:${SITE.EMAIL}`}
                                 aria-label={`Email ${SITE.NAME}`}
                             >
                                 {SITE.EMAIL}
                             </Link>
-                        </li>
-                    </ul>
-                </section>
+                        </span>
+                    </div>
+                </div>
             </section>
+
+            <!-- Footer Spacer -->
+            <div class="h-16"></div>
         </div>
     </Container>
 </PageLayout>
