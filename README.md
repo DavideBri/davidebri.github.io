@@ -2,3 +2,5 @@
 
 Personal blog based on Astro Nano
 
+TODOs:
+- [ ] Add OG-images generated via astro-og-canvas
