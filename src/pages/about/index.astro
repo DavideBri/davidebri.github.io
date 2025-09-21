@@ -1,0 +1,91 @@
+---
+
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+import BackToPrev from "@components/BackToPrev.astro";
+import Link from "@components/Link.astro";
+import { SITE, SOCIALS } from "@consts";
+
+---
+
+<PageLayout title="About" description="About Davide">
+    <Container>
+        <div>
+            <BackToPrev href="/">
+                Back home
+            </BackToPrev>
+        </div>
+        <div class="space-y-10">
+            <div class="space-y-1 my-6">
+                <div class="font-semibold text-center text-2xl text-black dark:text-white">
+                    ℹ️
+                </div>
+                <div class="text-center text-black dark:text-white">
+                    Infos about me
+                </div>
+            </div> 
+
+            <!-- What -->
+            <section class="mb-8">
+                <h2 class="text-md font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">What</h2>
+                <p class="text-black dark:text-white">
+                    Today, I'm a full-time Software Engineer for a Swiss company that operates in the management of the Workforce. <br>
+                    Before this, I studied @ University Of Pisa while I maintained an active role in the Developer community via the GDG Pisa.
+                </p>
+            </section>
+
+            <!-- How -->
+            <section class="mb-8">
+                <h2 class="text-md font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">How</h2>
+                <p class="text-black dark:text-white">
+                   I bring curiosity to everything I touch,<br>
+                   often finding new angles on things that seem perfectly defined to everyone else.
+                </p>
+            </section>
+
+            <!-- Why -->
+            <section class="mb-8">
+                <h2 class="text-md font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Why</h2>
+                <p class="text-black dark:text-white">
+                   I'm a builder by nature.<br>
+                   I can't help but wonder why certain things don't exist yet—and that restless curiosity pushes me to dive into new areas of learning and discovery every single day.
+                </p>
+            </section>
+
+            <!-- Where -->
+            <section class="mb-8">
+                <h2 class="text-md font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Where</h2>
+                <p class="text-black dark:text-white mb-2">
+                    Feel free to reach out—whether it's just to chat, collaborate, or share ideas! 
+                </p>
+                <div class="space-y-6">
+                    <div class="flex flex-wrap items-center gap-4 text-sm">
+                        {SOCIALS.map((social, index) => (
+                            <span class="flex items-center gap-2">
+                                <Link
+                                    href={social.HREF}
+                                    external
+                                    aria-label={`${SITE.NAME} on ${social.NAME}`}
+                                >
+                                    {social.NAME}
+                                </Link>
+                                {index < SOCIALS.length - 1 && (
+                                    <span class="text-gray-300 dark:text-gray-700">/</span>
+                                )}
+                            </span>
+                        ))}
+                        <span class="flex items-center gap-2">
+                            <span class="text-gray-300 dark:text-gray-700">/</span>
+                            <Link
+                                href={`mailto:${SITE.EMAIL}`}
+                                aria-label={`Email ${SITE.NAME}`}
+                            >
+                                {SITE.EMAIL}
+                            </Link>
+                        </span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </Container>
+</PageLayout>
