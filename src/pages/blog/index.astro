@@ -5,6 +5,7 @@ import Container from "@components/Container.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import { BLOG } from "@consts";
 import BackToPrev from "@components/BackToPrev.astro";
+import RssButton from "@components/RssButton.astro";
 
 const data = (await getCollection("blog"))
   .filter(post => !post.data.draft)
@@ -64,4 +65,7 @@ const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
       </div>
     </div>
   </Container>
+        <RssButton>
+        Subscribe to RSS..
+      </RssButton>
 </PageLayout>
