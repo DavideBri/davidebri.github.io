@@ -5,6 +5,7 @@ import Container from "@components/Container.astro";
 import FormattedDate from "@components/FormattedDate.astro";
 import { readingTime } from "@lib/utils";
 import BackToPrev from "@components/BackToPrev.astro";
+import ProgressBar from "@components/ProgressBar.astro";
 
 export async function getStaticPaths() {
     const posts = (await getCollection("blog"))
@@ -23,6 +24,7 @@ const { Content } = await post.render();
 
 <PageLayout title={post.data.title} description={post.data.description}>
     <Container>
+        <ProgressBar />
         <div class="">
             <BackToPrev href="/blog"> Back to blog </BackToPrev>
         </div>
