@@ -35,6 +35,10 @@ export const SOCIALS: Socials = [
     HREF: "https://hachyderm.io/@davidebri",
   },
   {
+    NAME: "Bluesky",
+    HREF: "https://davidebri.bsky.social",
+  },
+  {
     NAME: "Github",
     HREF: "https://github.com/DavideBri",
   },
