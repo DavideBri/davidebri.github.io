@@ -18,6 +18,19 @@ const work = await Promise.all(
         return { ...item, Content };
     }),
 );
+
+const collection2 = (await getCollection("achivements")).sort(
+    (a, b) =>
+        new Date(b.data.date).valueOf() -
+        new Date(a.data.date).valueOf(),
+);
+
+const achivements = await Promise.all(
+    collection2.map(async (item) => {
+        const { Content } = await item.render();
+        return { ...item, Content };
+    }),
+);
 ---
 
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
@@ -67,6 +80,30 @@ const work = await Promise.all(
                 Want the full resume? <a href={`mailto:${SITE.EMAIL}`} class="underline font-semibold hover:text-violet-700 dark:hover:text-violet-300">Shoot me an email</a> and I'll send it over!
             </div>
         </div>
+
+        <div class="text-center text-black dark:text-white">
+            Other Mentions
+        </div>
+
+        <ul class="flex flex-col space-y-4">
+            {
+                achivements.map((achiv) => (
+                    <li class="text-right">
+                        <a href={achiv.data.url} class="font-semibold text-black dark:text-white hover:underline" target="_blank" rel="noopener noreferrer">
+                            {achiv.data.title}
+                        </a>
+                        <div class="text-sm opacity-75">
+                            {achiv.data.description}
+                        </div>
+                        <article>
+                            <achiv.Content />
+                        </article>
+
+                    </li>
+                    
+                ))
+            }
+        </ul>
 
     </div>
     </Container>
