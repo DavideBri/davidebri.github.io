@@ -185,33 +185,62 @@ import { SITE } from "@consts";
         links[clamped].focus();
       }
       
-      function isDarkMode() {
-        return document.documentElement.classList.contains('dark') || localStorage.getItem('theme') === 'dark';
-      }
-      
-      function updateToggleLabel() {
-        if (!toggleBtn) return;
-        toggleBtn.textContent = isDarkMode() ? 'Lights on' : 'Lights off';
-      }
-      
-      function toggleTheme() {
-        if (isDarkMode()) {
-          if (lightBtn) {
-            lightBtn.click();
-          } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-          }
+     function isDarkMode() {
+      const userTheme = localStorage.getItem('theme');
+      if (userTheme === 'dark') return true;
+      if (userTheme === 'light') return false;
+      // Default: follow system
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    function applyTheme() {
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else if (localStorage.getItem('theme') === 'light') {
+        document.documentElement.classList.remove('dark');
+      } else {
+        // No user preference: follow system
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark');
         } else {
-          if (darkBtn) {
-            darkBtn.click();
-          } else {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-          }
+          document.documentElement.classList.remove('dark');
         }
-        setTimeout(updateToggleLabel, 50);
       }
+    }
+
+    function updateToggleLabel() {
+      if (!toggleBtn) return;
+      // Show the next action, not the current state
+      toggleBtn.textContent = isDarkMode() ? 'Lights on' : 'Lights off';
+    }
+
+    function toggleTheme() {
+      if (isDarkMode()) {
+        localStorage.setItem('theme', 'light');
+        document.documentElement.classList.remove('dark');
+      } else {
+        localStorage.setItem('theme', 'dark');
+        document.documentElement.classList.add('dark');
+      }
+      setTimeout(updateToggleLabel, 50);
+    }
+    if (toggleBtn) {
+      // Double-click to reset to system default
+      toggleBtn.addEventListener('dblclick', (e) => {
+        localStorage.removeItem('theme');
+        applyTheme();
+        updateToggleLabel();
+      }, { signal });
+    }
+
+    // Listen for system theme changes if no user preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (!localStorage.getItem('theme')) {
+        applyTheme();
+        updateToggleLabel();
+      }
+    });
+    applyTheme();
       
       function focusFirstLink() {
         const links = list.querySelectorAll('a[href]');
