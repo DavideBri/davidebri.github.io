@@ -99,14 +99,7 @@ import { SITE } from "@consts";
     </div>
   </div>
 </div>
-<!-- local styling to pick up blog accent color if provided -->
-<style>
-  :root {
-    --site-accent: ${SITE?.ACCENT ?? '#863bf6ff'};
-  }
-  .cp-accent { color: var(--site-accent); }
-  .cp-accent:focus, .cp-accent:active { outline: none; }
-</style>
+
 <script type="module">
   // Use a namespace to avoid global conflicts and manage state properly
   window.CommandPalette = window.CommandPalette || {};

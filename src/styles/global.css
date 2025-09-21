@@ -76,3 +76,14 @@ abbr{
 .cmd-active {
   @apply bg-violet-200 dark:bg-violet-400/40 border-none;
 }
+
+@media (max-width: 640px) {
+  #cmdpalette-btn {
+    top: auto !important;
+    left: auto !important;
+    bottom: 1.5rem !important;
+    right: 1.5rem !important;
+    position: fixed !important;
+    z-index: 50;
+  }
+}
