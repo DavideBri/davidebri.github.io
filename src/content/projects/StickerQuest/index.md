@@ -8,7 +8,7 @@ repoURL: "https://github.com/DavideBri/essotre"
 
 A location-based sticker-collecting game where users can place, discover, and interact with real stickers around the world. Featuring achievements and leaderboards, Esso Sticker blends real-world exploration with digital rewards.
 
-> I made a Blog post about "Vibecoding" and how I built this project. You can read it [here](https://davidebri.github.io/blog/09-Vibecoding/i-tried-vibecoding).
+> I made a Blog post about "Vibecoding" and how I built this project. You can read it [here](https://davidebri.github.io/blog/09-i-vibecoded/i-tried-vibecoding/).
 
 ---
 
