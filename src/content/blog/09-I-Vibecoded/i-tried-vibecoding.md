@@ -1,4 +1,8 @@
-# I Tried Vibecoding. Here’s What Happened.
+---
+title: I Tried Vibecoding. Here’s What Happened.
+description: A short, honest take on my first vibecoding experiment
+date: "26 Jun 2025"
+---
 
 After my Twitter timeline (I will never call it X, sorry Elon </3 ) got flooded with takes like:
 
