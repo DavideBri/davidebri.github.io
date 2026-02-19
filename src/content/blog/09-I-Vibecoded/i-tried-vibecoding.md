@@ -14,6 +14,7 @@ I decided to stop scrolling and approach this unexplored land. If everyone else 
 So I grabbed my infinite roll of paper — the one where I keep my **923,401 brilliant unicorn app ideas** — and picked one at random.
 
 **A sticker tracking app.**
+(Link to the final result at the end of the page)
 
 ---
 
@@ -85,7 +86,7 @@ It’s a never-ending story.
 ## Final Thoughts
 
 After a few days of vibecoding, I had something that kind of worked.  
-And I was kind of proud of it.
+And I was kind of proud of it. If you are curious here's the [final result](https://davidebri.github.io/projects/stickerquest/)
 
 **Skills gained:** zero  
 **Fun level:** 1,000,000,000  
