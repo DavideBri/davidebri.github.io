@@ -12,7 +12,7 @@ So I kept looking.
 
 ## Finding UmbrelOS
 
-Eventually I came across [UmbrelOS](https://umbrel.com/) — and it changed everything. Umbrel is a **dashboard for all your self-hosted services**, designed to be as close to a *set-and-forget* experience as possible. That said, you still get to roll up your sleeves a little — which is half the fun, right? It wouldn't be as satisfying otherwise.
+Eventually I came across [UmbrelOS](http://umbrel.com/umbrelos) — and it changed everything. Umbrel is a **dashboard for all your self-hosted services**, designed to be as close to a *set-and-forget* experience as possible. That said, you still get to roll up your sleeves a little — which is half the fun, right? It wouldn't be as satisfying otherwise.
 
 ### What makes it great
 
