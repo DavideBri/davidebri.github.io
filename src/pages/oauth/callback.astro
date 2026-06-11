@@ -1,0 +1,83 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import Container from "@components/Container.astro";
+---
+
+<PageLayout title="Authenticating..." description="OAuth callback handler">
+  <Container>
+    <div class="flex flex-col items-center justify-center py-20 gap-3">
+      <div class="w-5 h-5 rounded-full border-2 border-black/20 dark:border-white/20 border-t-black/60 dark:border-t-white/60 animate-spin"></div>
+      <p class="text-sm opacity-60">Completing sign-in, please wait…</p>
+    </div>
+  </Container>
+</PageLayout>
+
+<script>
+  (async () => {
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    const errorParam = params.get("error");
+
+    function fail(msg: string) {
+      if (window.opener) {
+        window.opener.postMessage({ type: "fedi-masto-auth", error: msg }, location.origin);
+        window.close();
+      } else {
+        const returnTo = localStorage.getItem("fedi-oauth-return-to") ?? "/";
+        location.href = returnTo;
+      }
+    }
+
+    if (errorParam) { fail(errorParam); return; }
+    if (!code) { fail("No authorization code received."); return; }
+
+    const raw = localStorage.getItem("fedi-masto-pending");
+    if (!raw) { fail("No pending Mastodon auth found."); return; }
+
+    const { instance, clientId, clientSecret, redirectUri } = JSON.parse(raw) as {
+      instance: string; clientId: string; clientSecret: string; redirectUri: string;
+    };
+
+    try {
+      const tokenRes = await fetch(`https://${instance}/oauth/token`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          grant_type: "authorization_code",
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
+        }).toString(),
+      });
+      if (!tokenRes.ok) throw new Error(`Token exchange failed: ${tokenRes.status}`);
+      const { access_token } = await tokenRes.json();
+
+      const accountRes = await fetch(`https://${instance}/api/v1/accounts/verify_credentials`, {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+      if (!accountRes.ok) throw new Error("Failed to fetch account info");
+      const account = await accountRes.json();
+
+      const sessionData = {
+        instance,
+        access_token,
+        acct: account.acct.includes("@") ? account.acct : `${account.acct}@${instance}`,
+        displayName: account.display_name || account.username,
+        avatar: account.avatar ?? "",
+      };
+
+      localStorage.setItem("fedi-masto-session", JSON.stringify(sessionData));
+      localStorage.removeItem("fedi-masto-pending");
+
+      if (window.opener) {
+        window.opener.postMessage({ type: "fedi-masto-auth", session: sessionData }, location.origin);
+        window.close();
+      } else {
+        location.href = localStorage.getItem("fedi-oauth-return-to") ?? "/";
+      }
+    } catch (e: any) {
+      fail(e?.message ?? "Unknown error");
+    }
+  })();
+</script>

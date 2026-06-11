@@ -1,0 +1,15 @@
+{
+  "client_name": "davidebri.github.io",
+  "client_uri": "https://davidebri.github.io",
+  "redirect_uris": [
+    "https://davidebri.github.io/oauth/callback",
+    "http://localhost:4321/oauth/callback",
+    "http://localhost:3000/oauth/callback"
+  ],
+  "scope": "atproto transition:generic",
+  "grant_types": ["authorization_code", "refresh_token"],
+  "response_types": ["code"],
+  "token_endpoint_auth_method": "none",
+  "application_type": "web",
+  "dpop_bound_access_tokens": true
+}

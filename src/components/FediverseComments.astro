@@ -1,0 +1,781 @@
+---
+type Props = {
+  blueskyPostUri?: string;
+  mastodonPostUrl?: string;
+};
+
+const { blueskyPostUri, mastodonPostUrl } = Astro.props;
+if (!blueskyPostUri && !mastodonPostUrl) return;
+
+const hasBluesky = !!blueskyPostUri;
+const hasMastodon = !!mastodonPostUrl;
+const hasBoth = hasBluesky && hasMastodon;
+---
+
+<section
+  id="fediverse-comments"
+  class="mt-16 pt-8 border-t border-black/15 dark:border-white/20"
+  data-bsky-uri={blueskyPostUri}
+  data-mastodon-url={mastodonPostUrl}
+  aria-label="Fediverse comments"
+>
+  <h2 class="text-lg font-semibold text-black dark:text-white mb-6">Comments</h2>
+
+  <!-- Like buttons row -->
+  <div id="fedi-likes" class="flex items-center gap-3 mb-5">
+    {hasBluesky && (
+      <button
+        id="like-bsky"
+        title="Like on Bluesky"
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 360 320" fill="currentColor">
+          <path d="M180 142c-16.3-31.7-60.7-90.8-102-120C38.5-5.9 36.3-4 23.4 0 13.5 3.1 0 21.4 0 30.5c0 9 14.3 57.3 19.5 70 10.5 26.8 31.2 43.6 52 49.3 37.4 10.4 79.1 2.9 79.1 2.9s-12.4 1.7-24.2 6.6c-11.4 4.7-48.1 26.3-57.7 100.6C66.1 302 81.5 320 98.5 320c15.4 0 47.8-22.8 63.5-50 8.2-14.2 18-28.6 18-28.6s9.8 14.4 18 28.6c15.7 27.2 48 50 63.5 50 17 0 32.4-18 29.8-60.1-9.6-74.3-46.3-95.9-57.7-100.6-11.8-4.9-24.2-6.6-24.2-6.6s41.7 7.5 79.1-2.9c20.8-5.7 41.5-22.5 52-49.3 5.2-12.7 19.5-61 19.5-70 0-9.1-13.5-27.4-23.4-30.5C304.3-4 302.1-5.9 262 22c-41.3 29.2-85.7 88.3-102 120z"/>
+        </svg>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-3.5 fill-current stroke-none">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span id="like-bsky-count" class="tabular-nums">—</span>
+      </button>
+    )}
+    {hasMastodon && (
+      <button
+        id="like-masto"
+        title="Like on Mastodon"
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.012-3.13C6.487 4.199 7.408 3.8 8.567 3.8c1.339 0 2.354.514 3.028 1.542l.653 1.092.654-1.092c.673-1.028 1.688-1.542 3.027-1.542 1.159 0 2.08.399 2.734 1.172.675.78 1.012 1.82 1.012 3.13z"/>
+        </svg>
+        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-3.5 fill-current stroke-none">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <span id="like-masto-count" class="tabular-nums">—</span>
+      </button>
+    )}
+  </div>
+
+  <!-- Auth / comment interaction box -->
+  <div id="fedi-interaction" class="border border-black/15 dark:border-white/20 rounded-lg p-4 mb-6">
+
+    <!-- State A: Not logged in -->
+    <div id="fedi-login">
+      <p class="text-sm opacity-60 mb-3">Sign in with your fediverse account to like or leave a comment</p>
+      <div class="flex flex-wrap gap-2">
+        {hasBluesky && (
+          <button
+            id="btn-show-bsky-login"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5"
+          >
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 360 320" fill="currentColor">
+              <path d="M180 142c-16.3-31.7-60.7-90.8-102-120C38.5-5.9 36.3-4 23.4 0 13.5 3.1 0 21.4 0 30.5c0 9 14.3 57.3 19.5 70 10.5 26.8 31.2 43.6 52 49.3 37.4 10.4 79.1 2.9 79.1 2.9s-12.4 1.7-24.2 6.6c-11.4 4.7-48.1 26.3-57.7 100.6C66.1 302 81.5 320 98.5 320c15.4 0 47.8-22.8 63.5-50 8.2-14.2 18-28.6 18-28.6s9.8 14.4 18 28.6c15.7 27.2 48 50 63.5 50 17 0 32.4-18 29.8-60.1-9.6-74.3-46.3-95.9-57.7-100.6-11.8-4.9-24.2-6.6-24.2-6.6s41.7 7.5 79.1-2.9c20.8-5.7 41.5-22.5 52-49.3 5.2-12.7 19.5-61 19.5-70 0-9.1-13.5-27.4-23.4-30.5C304.3-4 302.1-5.9 262 22c-41.3 29.2-85.7 88.3-102 120z"/>
+            </svg>
+            Sign in with Bluesky
+          </button>
+        )}
+        {hasMastodon && (
+          <button
+            id="btn-show-masto-login"
+            class="flex items-center gap-1.5 px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5"
+          >
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.012-3.13C6.487 4.199 7.408 3.8 8.567 3.8c1.339 0 2.354.514 3.028 1.542l.653 1.092.654-1.092c.673-1.028 1.688-1.542 3.027-1.542 1.159 0 2.08.399 2.734 1.172.675.78 1.012 1.82 1.012 3.13z"/>
+            </svg>
+            Sign in with Mastodon
+          </button>
+        )}
+      </div>
+
+      {hasBluesky && (
+        <div id="bsky-login-form" class="hidden mt-3">
+          <div class="flex gap-2">
+            <input
+              id="bsky-handle-input"
+              type="text"
+              placeholder="alice.bsky.social"
+              class="flex-1 text-sm rounded border border-black/15 dark:border-white/20 bg-transparent px-2 py-1.5 focus:outline-none focus:border-black/40 dark:focus:border-white/40 transition-colors"
+            />
+            <button
+              id="btn-bsky-signin"
+              class="px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 whitespace-nowrap"
+            >
+              Continue →
+            </button>
+          </div>
+          <p id="bsky-login-error" class="hidden mt-1.5 text-xs text-red-500 dark:text-red-400"></p>
+        </div>
+      )}
+
+      {hasMastodon && (
+        <div id="masto-login-form" class="hidden mt-3">
+          <div class="flex gap-2">
+            <input
+              id="masto-instance-input"
+              type="text"
+              placeholder="mastodon.social"
+              class="flex-1 text-sm rounded border border-black/15 dark:border-white/20 bg-transparent px-2 py-1.5 focus:outline-none focus:border-black/40 dark:focus:border-white/40 transition-colors"
+            />
+            <button
+              id="btn-masto-signin"
+              class="px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 whitespace-nowrap"
+            >
+              Continue →
+            </button>
+          </div>
+          <p id="masto-login-error" class="hidden mt-1.5 text-xs text-red-500 dark:text-red-400"></p>
+        </div>
+      )}
+    </div>
+
+    <!-- State B: Logged in -->
+    <div id="fedi-logged-in" class="hidden">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <img id="fedi-user-avatar" src="" alt="" class="w-6 h-6 rounded-full border border-black/10 dark:border-white/10" />
+          <span class="text-sm font-medium text-black dark:text-white">@<span id="fedi-user-handle"></span></span>
+          <span id="fedi-platform-badge" class="text-xs opacity-50"></span>
+        </div>
+        <button id="btn-logout" class="text-xs opacity-50 hover:opacity-100 transition-opacity duration-200">
+          Sign out
+        </button>
+      </div>
+      <textarea
+        id="fedi-comment-input"
+        rows="3"
+        placeholder="Write a reply…"
+        class="w-full text-sm rounded border border-black/15 dark:border-white/20 bg-transparent p-2 resize-none focus:outline-none focus:border-black/40 dark:focus:border-white/40 transition-colors placeholder:opacity-40"
+      ></textarea>
+      <div class="flex items-center justify-between mt-2">
+        <span id="fedi-char-count" class="text-xs opacity-40"></span>
+        <button
+          id="btn-submit-comment"
+          class="px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Post reply
+        </button>
+      </div>
+      <p id="fedi-submit-status" class="hidden mt-2 text-xs opacity-60"></p>
+    </div>
+
+  </div>
+
+  <!-- Tab bar (only if both platforms) -->
+  {hasBoth && (
+    <div id="fedi-tabs" class="flex gap-2 mb-6" role="tablist">
+      <button
+        id="tab-bluesky"
+        role="tab"
+        aria-selected="true"
+        aria-controls="panel-bluesky"
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/40 dark:border-white/40 bg-black/5 dark:bg-white/5 text-black dark:text-white"
+      >
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 360 320" fill="currentColor">
+          <path d="M180 142c-16.3-31.7-60.7-90.8-102-120C38.5-5.9 36.3-4 23.4 0 13.5 3.1 0 21.4 0 30.5c0 9 14.3 57.3 19.5 70 10.5 26.8 31.2 43.6 52 49.3 37.4 10.4 79.1 2.9 79.1 2.9s-12.4 1.7-24.2 6.6c-11.4 4.7-48.1 26.3-57.7 100.6C66.1 302 81.5 320 98.5 320c15.4 0 47.8-22.8 63.5-50 8.2-14.2 18-28.6 18-28.6s9.8 14.4 18 28.6c15.7 27.2 48 50 63.5 50 17 0 32.4-18 29.8-60.1-9.6-74.3-46.3-95.9-57.7-100.6-11.8-4.9-24.2-6.6-24.2-6.6s41.7 7.5 79.1-2.9c20.8-5.7 41.5-22.5 52-49.3 5.2-12.7 19.5-61 19.5-70 0-9.1-13.5-27.4-23.4-30.5C304.3-4 302.1-5.9 262 22c-41.3 29.2-85.7 88.3-102 120z"/>
+        </svg>
+        Bluesky
+        <span id="bsky-count" class="text-xs opacity-60"></span>
+      </button>
+      <button
+        id="tab-mastodon"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-mastodon"
+        class="flex items-center gap-1.5 px-3 py-1.5 rounded border text-sm transition-colors duration-300 ease-in-out border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5"
+      >
+        <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.012-3.13C6.487 4.199 7.408 3.8 8.567 3.8c1.339 0 2.354.514 3.028 1.542l.653 1.092.654-1.092c.673-1.028 1.688-1.542 3.027-1.542 1.159 0 2.08.399 2.734 1.172.675.78 1.012 1.82 1.012 3.13z"/>
+        </svg>
+        Mastodon
+        <span id="masto-count" class="text-xs opacity-60"></span>
+      </button>
+    </div>
+  )}
+
+  <!-- Bluesky panel -->
+  {hasBluesky && (
+    <div id="panel-bluesky" role="tabpanel" aria-labelledby="tab-bluesky">
+      <div id="bsky-loading" class="space-y-4">
+        {[0,1].map(() => (
+          <div class="flex gap-3 py-3">
+            <div class="w-8 h-8 rounded-full animate-pulse bg-black/5 dark:bg-white/5 flex-shrink-0"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-3 w-32 animate-pulse bg-black/5 dark:bg-white/5 rounded"></div>
+              <div class="h-3 w-full animate-pulse bg-black/5 dark:bg-white/5 rounded"></div>
+              <div class="h-3 w-4/5 animate-pulse bg-black/5 dark:bg-white/5 rounded"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div id="bsky-content" class="hidden">
+        <div id="bsky-stats" class="flex items-center gap-4 mb-4 text-sm opacity-50"></div>
+        <div id="bsky-comments" class="divide-y divide-black/10 dark:divide-white/10"></div>
+        <div id="bsky-empty" class="hidden text-sm opacity-60 py-4">No replies yet. Be the first!</div>
+        <a
+          id="bsky-cta"
+          href={blueskyPostUri}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1 mt-4 text-sm opacity-50 hover:opacity-100 transition-opacity duration-200"
+        >
+          Reply on Bluesky
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-3.5 stroke-2 fill-none stroke-current">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+      <div id="bsky-error" class="hidden text-sm opacity-60 py-4">Could not load Bluesky comments.</div>
+    </div>
+  )}
+
+  <!-- Mastodon panel -->
+  {hasMastodon && (
+    <div
+      id="panel-mastodon"
+      role="tabpanel"
+      aria-labelledby="tab-mastodon"
+      class={hasBoth ? "hidden" : ""}
+    >
+      <div id="masto-loading" class="space-y-4">
+        {[0,1].map(() => (
+          <div class="flex gap-3 py-3">
+            <div class="w-8 h-8 rounded-full animate-pulse bg-black/5 dark:bg-white/5 flex-shrink-0"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-3 w-32 animate-pulse bg-black/5 dark:bg-white/5 rounded"></div>
+              <div class="h-3 w-full animate-pulse bg-black/5 dark:bg-white/5 rounded"></div>
+              <div class="h-3 w-4/5 animate-pulse bg-black/5 dark:bg-white/5 rounded"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div id="masto-content" class="hidden">
+        <div id="masto-stats" class="flex items-center gap-4 mb-4 text-sm opacity-50"></div>
+        <div id="masto-comments" class="divide-y divide-black/10 dark:divide-white/10"></div>
+        <div id="masto-empty" class="hidden text-sm opacity-60 py-4">No replies yet. Be the first!</div>
+        <a
+          id="masto-cta"
+          href={mastodonPostUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1 mt-4 text-sm opacity-50 hover:opacity-100 transition-opacity duration-200"
+        >
+          Reply on Mastodon
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="size-3.5 stroke-2 fill-none stroke-current">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+            <polyline points="15 3 21 3 21 9"/>
+            <line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </a>
+      </div>
+      <div id="masto-error" class="hidden text-sm opacity-60 py-4">Could not load Mastodon comments.</div>
+    </div>
+  )}
+</section>
+
+<style>
+  .fedi-comment-content p { margin: 0; }
+  .fedi-comment-content a { text-decoration: underline; text-underline-offset: 2px; }
+  .fedi-avatar-fallback {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 600; color: white;
+  }
+</style>
+
+<script>
+  import { BrowserOAuthClient } from "@atproto/oauth-client-browser";
+  import type { OAuthSession } from "@atproto/oauth-client";
+
+  // ── Root & data ─────────────────────────────────────────────────────────────
+  const root = document.getElementById("fediverse-comments") as HTMLElement;
+  const bskyRawUri = root.dataset.bskyUri ?? "";
+  const mastoRawUrl = root.dataset.mastodonUrl ?? "";
+  const hasBoth = !!bskyRawUri && !!mastoRawUrl;
+
+  // Module-level state populated when threads load
+  let bskyAtUri = "";
+  let bskyCid = "";
+  let bskyClient: BrowserOAuthClient | null = null;
+  let bskySession: OAuthSession | null = null;
+  type MastoSession = { instance: string; access_token: string; acct: string; displayName: string; avatar: string };
+  let mastoSession: MastoSession | null = null;
+
+  // ── DOM helpers ─────────────────────────────────────────────────────────────
+  function showEl(id: string) { document.getElementById(id)?.classList.remove("hidden"); }
+  function hideEl(id: string) { document.getElementById(id)?.classList.add("hidden"); }
+
+  function formatDate(iso: string): string {
+    const d = new Date(iso);
+    const diff = Date.now() - d.getTime();
+    if (diff < 3_600_000) return `${Math.floor(diff / 60_000)}m ago`;
+    if (diff < 86_400_000) return `${Math.floor(diff / 3_600_000)}h ago`;
+    return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  }
+
+  function avatarFallbackHtml(name: string): string {
+    const colors = ["#6b7280","#8b5cf6","#ec4899","#06b6d4","#10b981","#f59e0b"];
+    const idx = (name.charCodeAt(0) || 0) % colors.length;
+    return `<div class="w-8 h-8 rounded-full flex-shrink-0 fedi-avatar-fallback border border-black/10 dark:border-white/10" style="background:${colors[idx]}">${(name[0]||"?").toUpperCase()}</div>`;
+  }
+
+  function makeAvatar(src: string, alt: string): string {
+    const fallback = avatarFallbackHtml(alt).replace(/'/g, "&#39;");
+    return `<img src="${src}" alt="${escapeHtml(alt)}'s avatar" loading="lazy" crossorigin="anonymous" class="w-8 h-8 rounded-full flex-shrink-0 border border-black/10 dark:border-white/10" onerror="this.outerHTML='${fallback}';" />`;
+  }
+
+  function escapeHtml(s: string): string {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  // ── Tab switching ────────────────────────────────────────────────────────────
+  if (hasBoth) {
+    const tabBsky = document.getElementById("tab-bluesky");
+    const tabMasto = document.getElementById("tab-mastodon");
+    const active = ["border-black/40","dark:border-white/40","bg-black/5","dark:bg-white/5","text-black","dark:text-white"];
+    const inactive = ["border-black/15","dark:border-white/20","hover:bg-black/5","dark:hover:bg-white/5"];
+
+    function activateTab(p: "bluesky"|"mastodon") {
+      const isB = p === "bluesky";
+      tabBsky?.setAttribute("aria-selected", String(isB));
+      tabMasto?.setAttribute("aria-selected", String(!isB));
+      active.forEach(c => { isB ? tabBsky?.classList.add(c) : tabBsky?.classList.remove(c); });
+      inactive.forEach(c => { isB ? tabBsky?.classList.remove(c) : tabBsky?.classList.add(c); });
+      active.forEach(c => { !isB ? tabMasto?.classList.add(c) : tabMasto?.classList.remove(c); });
+      inactive.forEach(c => { !isB ? tabMasto?.classList.remove(c) : tabMasto?.classList.add(c); });
+      isB ? (showEl("panel-bluesky"), hideEl("panel-mastodon")) : (showEl("panel-mastodon"), hideEl("panel-bluesky"));
+    }
+    tabBsky?.addEventListener("click", () => activateTab("bluesky"));
+    tabMasto?.addEventListener("click", () => activateTab("mastodon"));
+  }
+
+  // ── Bluesky data fetch ───────────────────────────────────────────────────────
+  async function loadBluesky(rawUri: string) {
+    bskyAtUri = rawUri.startsWith("https://bsky.app/profile/")
+      ? (() => { const p = rawUri.replace("https://bsky.app/profile/","").split("/post/"); return `at://${p[0]}/app.bsky.feed.post/${p[1]}`; })()
+      : rawUri;
+
+    const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(bskyAtUri)}&depth=10`);
+    if (!res.ok) throw new Error(`Bluesky ${res.status}`);
+    const data = await res.json();
+
+    const thread = data.thread;
+    bskyCid = thread?.post?.cid ?? "";
+    const likeCount: number = thread?.post?.likeCount ?? 0;
+    const repostCount: number = thread?.post?.repostCount ?? 0;
+    const replies: any[] = (thread?.replies ?? []).filter((r: any) => r.$type === "app.bsky.feed.defs#threadViewPost");
+
+    // Like button count
+    const likeBadge = document.getElementById("like-bsky-count");
+    if (likeBadge) likeBadge.textContent = String(likeCount);
+
+    // Check if already liked
+    if (localStorage.getItem(`fedi-liked-bsky-${bskyAtUri}`)) {
+      markLikedBtn("like-bsky");
+    }
+
+    // Stats
+    const statsEl = document.getElementById("bsky-stats");
+    if (statsEl) statsEl.innerHTML = `<span>♥ ${likeCount}</span><span>↩ ${repostCount}</span><span>💬 ${replies.length}</span>`;
+
+    // Tab count badge
+    const countEl = document.getElementById("bsky-count");
+    if (countEl && likeCount + replies.length > 0) countEl.textContent = `${likeCount + replies.length}`;
+
+    // Comments
+    const commentsEl = document.getElementById("bsky-comments");
+    if (commentsEl) {
+      if (replies.length > 0) {
+        commentsEl.innerHTML = replies.map((r: any) => {
+          const p = r.post, a = p.author;
+          return `<div class="flex gap-3 py-4">
+            ${makeAvatar(a.avatar ?? "", a.displayName ?? a.handle)}
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-baseline gap-x-1.5 mb-1">
+                <span class="text-sm font-semibold text-black dark:text-white">${escapeHtml(a.displayName || a.handle)}</span>
+                <span class="text-xs opacity-50">@${escapeHtml(a.handle)}</span>
+                <span class="text-xs opacity-40 ml-auto">${formatDate(p.indexedAt)}</span>
+              </div>
+              <p class="text-sm leading-relaxed">${escapeHtml(p.record?.text ?? "")}</p>
+              ${(p.likeCount??0) > 0 ? `<div class="mt-1.5 text-xs opacity-50">♥ ${p.likeCount}</div>` : ""}
+            </div>
+          </div>`;
+        }).join("");
+      } else {
+        showEl("bsky-empty");
+      }
+    }
+
+    hideEl("bsky-loading");
+    showEl("bsky-content");
+  }
+
+  // ── Mastodon data fetch ──────────────────────────────────────────────────────
+  async function loadMastodon(statusUrl: string) {
+    const { hostname: instance, pathname } = new URL(statusUrl);
+    const statusId = pathname.split("/").pop()!;
+
+    const base = `https://${instance}/api/v1/statuses/${statusId}`;
+    const [sRes, cRes] = await Promise.all([fetch(base), fetch(`${base}/context`)]);
+    if (!sRes.ok) throw new Error(`Mastodon ${sRes.status}`);
+    const status = await sRes.json();
+    const context = await cRes.json();
+
+    const likeCount: number = status.favourites_count ?? 0;
+    const boostCount: number = status.reblogs_count ?? 0;
+    const replies: any[] = (context.descendants ?? []).filter((s: any) => s.in_reply_to_id === statusId);
+
+    // Like button count
+    const likeBadge = document.getElementById("like-masto-count");
+    if (likeBadge) likeBadge.textContent = String(likeCount);
+
+    if (localStorage.getItem(`fedi-liked-masto-${statusId}`)) {
+      markLikedBtn("like-masto");
+    }
+
+    const statsEl = document.getElementById("masto-stats");
+    if (statsEl) statsEl.innerHTML = `<span>♥ ${likeCount}</span><span>↩ ${boostCount}</span><span>💬 ${replies.length}</span>`;
+
+    const countEl = document.getElementById("masto-count");
+    if (countEl && likeCount + replies.length > 0) countEl.textContent = `${likeCount + replies.length}`;
+
+    const commentsEl = document.getElementById("masto-comments");
+    if (commentsEl) {
+      if (replies.length > 0) {
+        commentsEl.innerHTML = replies.map((r: any) => {
+          const acc = r.account;
+          return `<div class="flex gap-3 py-4">
+            ${makeAvatar(acc.avatar ?? "", acc.display_name || acc.acct)}
+            <div class="flex-1 min-w-0">
+              <div class="flex flex-wrap items-baseline gap-x-1.5 mb-1">
+                <span class="text-sm font-semibold text-black dark:text-white">${escapeHtml(acc.display_name || acc.acct)}</span>
+                <span class="text-xs opacity-50">@${escapeHtml(acc.acct)}</span>
+                <span class="text-xs opacity-40 ml-auto">${formatDate(r.created_at)}</span>
+              </div>
+              <div class="text-sm leading-relaxed fedi-comment-content">${r.content}</div>
+              ${(r.favourites_count??0) > 0 ? `<div class="mt-1.5 text-xs opacity-50">♥ ${r.favourites_count}</div>` : ""}
+            </div>
+          </div>`;
+        }).join("");
+      } else {
+        showEl("masto-empty");
+      }
+    }
+
+    hideEl("masto-loading");
+    showEl("masto-content");
+  }
+
+  // ── Liked state ──────────────────────────────────────────────────────────────
+  function markLikedBtn(btnId: string) {
+    const btn = document.getElementById(btnId) as HTMLButtonElement | null;
+    if (!btn) return;
+    btn.classList.add("border-rose-500/50","text-rose-500","dark:text-rose-400");
+    btn.disabled = true;
+  }
+
+  // ── Auth: Bluesky ────────────────────────────────────────────────────────────
+  async function getBskyClient(): Promise<BrowserOAuthClient> {
+    if (!bskyClient) {
+      bskyClient = await BrowserOAuthClient.load({ clientId: `${location.origin}/client-metadata.json` });
+    }
+    return bskyClient;
+  }
+
+  async function tryRestoreBluesky() {
+    if (!bskyRawUri) return;
+    try {
+      const client = await getBskyClient();
+      const result = await client.initRestore();
+      if (result?.session) {
+        bskySession = result.session;
+        const profileRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(bskySession.did)}`);
+        const profile = await profileRes.json();
+        showLoggedInUI({ platform: "bluesky", handle: profile.handle, avatar: profile.avatar ?? "", displayName: profile.displayName ?? "" });
+      }
+    } catch { /* no stored session */ }
+  }
+
+  async function loginBluesky() {
+    const input = document.getElementById("bsky-handle-input") as HTMLInputElement;
+    const errEl = document.getElementById("bsky-login-error")!;
+    const handle = input?.value.trim();
+    if (!handle) return;
+
+    const btn = document.getElementById("btn-bsky-signin") as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = "Opening…";
+    errEl.classList.add("hidden");
+
+    try {
+      const client = await getBskyClient();
+      const session = await client.signInPopup(handle);
+      bskySession = session;
+      const profileRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(session.did)}`);
+      const profile = await profileRes.json();
+      showLoggedInUI({ platform: "bluesky", handle: profile.handle, avatar: profile.avatar ?? "", displayName: profile.displayName ?? "" });
+    } catch (e: any) {
+      errEl.textContent = e?.message?.includes("popup") ? "Popup was blocked — please allow popups for this site." : (e?.message ?? "Sign-in failed.");
+      errEl.classList.remove("hidden");
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "Continue →";
+    }
+  }
+
+  // ── Auth: Mastodon ───────────────────────────────────────────────────────────
+  function tryRestoreMastodon() {
+    const raw = localStorage.getItem("fedi-masto-session");
+    if (!raw) return;
+    mastoSession = JSON.parse(raw) as MastoSession;
+    if (!bskySession) {
+      showLoggedInUI({ platform: "mastodon", handle: mastoSession.acct, avatar: mastoSession.avatar, displayName: mastoSession.displayName });
+    }
+  }
+
+  async function loginMastodon() {
+    const input = document.getElementById("masto-instance-input") as HTMLInputElement;
+    const errEl = document.getElementById("masto-login-error")!;
+    let instance = input?.value.trim().replace(/^https?:\/\//, "").replace(/\/$/, "");
+    if (!instance) return;
+
+    const btn = document.getElementById("btn-masto-signin") as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = "Opening…";
+    errEl.classList.add("hidden");
+
+    try {
+      const redirectUri = `${location.origin}/oauth/callback`;
+      const appRes = await fetch(`https://${instance}/api/v1/apps`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          client_name: "davidebri.github.io",
+          redirect_uris: redirectUri,
+          scopes: "write:favourites write:statuses read:accounts",
+          website: location.origin,
+        }).toString(),
+      });
+      if (!appRes.ok) throw new Error(`Could not register on ${instance} (${appRes.status})`);
+      const app = await appRes.json();
+
+      localStorage.setItem("fedi-masto-pending", JSON.stringify({ instance, clientId: app.client_id, clientSecret: app.client_secret, redirectUri }));
+      localStorage.setItem("fedi-oauth-return-to", location.href);
+
+      const authUrl = `https://${instance}/oauth/authorize?client_id=${encodeURIComponent(app.client_id)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=write:favourites+write:statuses+read:accounts`;
+      const popup = window.open(authUrl, "mastodon-auth", "width=600,height=700,scrollbars=yes,resizable=yes");
+
+      if (!popup) throw new Error("Popup was blocked — please allow popups for this site.");
+
+      window.addEventListener("message", (e: MessageEvent) => {
+        if (e.origin !== location.origin || e.data?.type !== "fedi-masto-auth") return;
+        if (e.data.error) {
+          errEl.textContent = e.data.error;
+          errEl.classList.remove("hidden");
+          btn.disabled = false;
+          btn.textContent = "Continue →";
+          return;
+        }
+        mastoSession = e.data.session as MastoSession;
+        // Also Bluesky may be logged in; only override UI if bsky not active
+        if (!bskySession) {
+          showLoggedInUI({ platform: "mastodon", handle: mastoSession!.acct, avatar: mastoSession!.avatar, displayName: mastoSession!.displayName });
+        }
+        btn.disabled = false;
+        btn.textContent = "Continue →";
+      }, { once: true });
+    } catch (e: any) {
+      errEl.textContent = e?.message ?? "Sign-in failed.";
+      errEl.classList.remove("hidden");
+      btn.disabled = false;
+      btn.textContent = "Continue →";
+    }
+  }
+
+  // ── Show logged-in state ─────────────────────────────────────────────────────
+  function showLoggedInUI({ platform, handle, avatar, displayName }: { platform: string; handle: string; avatar: string; displayName: string }) {
+    hideEl("fedi-login");
+    showEl("fedi-logged-in");
+
+    const handleEl = document.getElementById("fedi-user-handle");
+    const avatarEl = document.getElementById("fedi-user-avatar") as HTMLImageElement | null;
+    const badgeEl = document.getElementById("fedi-platform-badge");
+    const charLimitEl = document.getElementById("fedi-char-count");
+
+    if (handleEl) handleEl.textContent = handle;
+    if (badgeEl) badgeEl.textContent = `on ${platform === "bluesky" ? "Bluesky" : "Mastodon"}`;
+    if (avatarEl) {
+      avatarEl.src = avatar;
+      avatarEl.alt = `${displayName || handle} avatar`;
+      avatarEl.onerror = () => { avatarEl.style.display = "none"; };
+    }
+    if (charLimitEl) {
+      const limit = platform === "bluesky" ? 300 : 500;
+      charLimitEl.textContent = `0 / ${limit}`;
+      const textarea = document.getElementById("fedi-comment-input") as HTMLTextAreaElement | null;
+      textarea?.addEventListener("input", () => {
+        charLimitEl.textContent = `${textarea.value.length} / ${limit}`;
+      });
+    }
+  }
+
+  // ── Logout ───────────────────────────────────────────────────────────────────
+  async function logout() {
+    if (bskySession) {
+      try { const c = await getBskyClient(); await c.revoke(bskySession.did); } catch {}
+      bskySession = null;
+    }
+    if (mastoSession) {
+      localStorage.removeItem("fedi-masto-session");
+      mastoSession = null;
+    }
+    hideEl("fedi-logged-in");
+    showEl("fedi-login");
+  }
+
+  // ── Like handlers ────────────────────────────────────────────────────────────
+  async function handleLikeBsky() {
+    if (!bskySession) {
+      // Show the Bluesky login form as a prompt
+      showEl("bsky-login-form"); hideEl("masto-login-form");
+      document.getElementById("btn-show-bsky-login")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    if (!bskyCid) return;
+    const btn = document.getElementById("like-bsky") as HTMLButtonElement;
+    btn.disabled = true;
+    try {
+      await bskySession.fetchHandler("/xrpc/com.atproto.repo.createRecord", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          repo: bskySession.did,
+          collection: "app.bsky.feed.like",
+          record: { $type: "app.bsky.feed.like", subject: { uri: bskyAtUri, cid: bskyCid }, createdAt: new Date().toISOString() }
+        }),
+      });
+      const countEl = document.getElementById("like-bsky-count");
+      if (countEl) countEl.textContent = String(parseInt(countEl.textContent || "0") + 1);
+      markLikedBtn("like-bsky");
+      localStorage.setItem(`fedi-liked-bsky-${bskyAtUri}`, "1");
+    } catch {
+      btn.disabled = false;
+    }
+  }
+
+  async function handleLikeMasto() {
+    if (!mastoSession) {
+      showEl("masto-login-form"); hideEl("bsky-login-form");
+      document.getElementById("btn-show-masto-login")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    const btn = document.getElementById("like-masto") as HTMLButtonElement;
+    btn.disabled = true;
+    try {
+      const { instance, access_token } = mastoSession;
+      const search = await fetch(`https://${instance}/api/v2/search?q=${encodeURIComponent(mastoRawUrl)}&resolve=true&type=statuses`, {
+        headers: { Authorization: `Bearer ${access_token}` },
+      }).then(r => r.json());
+      const localId: string | undefined = search.statuses?.[0]?.id;
+      if (!localId) throw new Error("Post not found on your instance");
+
+      await fetch(`https://${instance}/api/v1/statuses/${localId}/favourite`, {
+        method: "POST", headers: { Authorization: `Bearer ${access_token}` },
+      });
+      const countEl = document.getElementById("like-masto-count");
+      if (countEl) countEl.textContent = String(parseInt(countEl.textContent || "0") + 1);
+      const statusId = new URL(mastoRawUrl).pathname.split("/").pop()!;
+      markLikedBtn("like-masto");
+      localStorage.setItem(`fedi-liked-masto-${statusId}`, "1");
+    } catch {
+      btn.disabled = false;
+    }
+  }
+
+  // ── Comment submission ───────────────────────────────────────────────────────
+  async function handleSubmitComment() {
+    const textarea = document.getElementById("fedi-comment-input") as HTMLTextAreaElement | null;
+    const statusEl = document.getElementById("fedi-submit-status");
+    const submitBtn = document.getElementById("btn-submit-comment") as HTMLButtonElement | null;
+    const text = textarea?.value.trim();
+    if (!text || !submitBtn) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Posting…";
+    if (statusEl) statusEl.classList.add("hidden");
+
+    try {
+      if (bskySession && bskyRawUri) {
+        await bskySession.fetchHandler("/xrpc/com.atproto.repo.createRecord", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            repo: bskySession.did,
+            collection: "app.bsky.feed.post",
+            record: {
+              $type: "app.bsky.feed.post",
+              text,
+              reply: { root: { uri: bskyAtUri, cid: bskyCid }, parent: { uri: bskyAtUri, cid: bskyCid } },
+              createdAt: new Date().toISOString(),
+            },
+          }),
+        });
+      } else if (mastoSession && mastoRawUrl) {
+        const { instance, access_token } = mastoSession;
+        const search = await fetch(`https://${instance}/api/v2/search?q=${encodeURIComponent(mastoRawUrl)}&resolve=true&type=statuses`, {
+          headers: { Authorization: `Bearer ${access_token}` },
+        }).then(r => r.json());
+        const localId: string | undefined = search.statuses?.[0]?.id;
+        const form = new FormData();
+        form.append("status", text);
+        if (localId) form.append("in_reply_to_id", localId);
+        await fetch(`https://${instance}/api/v1/statuses`, {
+          method: "POST", headers: { Authorization: `Bearer ${access_token}` }, body: form,
+        });
+      }
+
+      if (textarea) textarea.value = "";
+      if (statusEl) { statusEl.textContent = "Reply posted!"; statusEl.classList.remove("hidden"); setTimeout(() => statusEl.classList.add("hidden"), 4000); }
+    } catch (e: any) {
+      if (statusEl) { statusEl.textContent = e?.message ?? "Failed to post reply."; statusEl.classList.remove("hidden"); }
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Post reply";
+    }
+  }
+
+  // ── Wire up buttons ──────────────────────────────────────────────────────────
+  document.getElementById("btn-show-bsky-login")?.addEventListener("click", () => {
+    const f = document.getElementById("bsky-login-form")!;
+    f.classList.toggle("hidden");
+    hideEl("masto-login-form");
+  });
+  document.getElementById("btn-show-masto-login")?.addEventListener("click", () => {
+    const f = document.getElementById("masto-login-form")!;
+    f.classList.toggle("hidden");
+    hideEl("bsky-login-form");
+  });
+  document.getElementById("btn-bsky-signin")?.addEventListener("click", loginBluesky);
+  document.getElementById("bsky-handle-input")?.addEventListener("keydown", (e) => { if ((e as KeyboardEvent).key === "Enter") loginBluesky(); });
+  document.getElementById("btn-masto-signin")?.addEventListener("click", loginMastodon);
+  document.getElementById("masto-instance-input")?.addEventListener("keydown", (e) => { if ((e as KeyboardEvent).key === "Enter") loginMastodon(); });
+  document.getElementById("btn-logout")?.addEventListener("click", logout);
+  document.getElementById("like-bsky")?.addEventListener("click", handleLikeBsky);
+  document.getElementById("like-masto")?.addEventListener("click", handleLikeMasto);
+  document.getElementById("btn-submit-comment")?.addEventListener("click", handleSubmitComment);
+
+  // ── Boot ─────────────────────────────────────────────────────────────────────
+  const fetches: Promise<void>[] = [];
+
+  if (bskyRawUri) {
+    fetches.push(loadBluesky(bskyRawUri).catch(() => { hideEl("bsky-loading"); showEl("bsky-error"); }));
+  }
+  if (mastoRawUrl) {
+    fetches.push(loadMastodon(mastoRawUrl).catch(() => { hideEl("masto-loading"); showEl("masto-error"); }));
+  }
+
+  Promise.allSettled(fetches);
+
+  // Restore sessions (after fetches are kicked off so they run in parallel)
+  tryRestoreMastodon();
+  if (bskyRawUri) tryRestoreBluesky();
+</script>
