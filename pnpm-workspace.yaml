@@ -1,4 +1,11 @@
+# pnpm v10 setting (ignored by v11+)
 onlyBuiltDependencies:
   - core-js
   - esbuild
   - sharp
+
+# pnpm v11+ setting (ignored by v10)
+allowBuilds:
+  core-js: true
+  esbuild: true
+  sharp: true
