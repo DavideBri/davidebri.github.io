@@ -11,7 +11,7 @@ On **9 July 2026** the European Parliament let *"Chat Control 1.0"* through: sus
 Plot twist that still cracks me up: most MEPs who voted were actually against it.
 
 ![](image-1.png)
-https://howtheyvote.eu/votes/195775
+https://howtheyvote.eu/votes/195775 The vote wasn't a direct "yes/no on Chat Control." It was a motion to reject it.
 
 But killing it needed an absolute majority of **361 votes**, and we didn't hit the number. So a rule the majority in the room voted *no* on is now live until 2028, thanks to voting math and a cheeky fast-track right before summer break. Cool cool cool.
 
@@ -44,7 +44,8 @@ That's DMs on Instagram, Discord, Snapchat, Skype, Xbox, plus normal email like 
 | Health info, diagnosis, therapy stuff | Signal, Mail but within password protected .zip |
 | Passwords, bank details, home address | A password manager, never a chat box |
 
-Simple rule: **if the platform *could* read it, assume something eventually will.** WhatsApp is E2E by default and out of scope here, Signal is my go-to for anything that actually matters.
+Simple rule: **if the platform *could* read it, assume something eventually will.** <br>
+Stick to E2E encrypted apps like WhatsApp or Signal (my personal go-to) for anything sensitive.
 
 
 
