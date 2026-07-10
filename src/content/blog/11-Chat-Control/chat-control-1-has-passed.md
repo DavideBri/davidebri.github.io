@@ -2,8 +2,6 @@
 title: Chat Control 1.0 passed. Not the news I wanted, but I'm hyped anyway.
 description: Chat Control 1.0 passed despite most MEPs voting against it. Quick recap of the vote, what to keep off non-encrypted apps starting today, and why P2P tech like Pears + self-built software has me hyped for where privacy tech is headed next.
 date: "Jul 10 2026"
-mastodonPostUrl:
-blueskyPostUri:
 ---
 
 On **9 July 2026** the European Parliament let *"Chat Control 1.0"* through: suspicionless mass scanning of private messages. Same thing the Parliament had already rejected **twice** back in March.
