@@ -3,7 +3,7 @@ import PageLayout from "@layouts/PageLayout.astro";
 import Container from "@components/Container.astro";
 ---
 
-<PageLayout title="Authenticating..." description="OAuth callback handler">
+<PageLayout title="Authenticating..." description="Bluesky (AT Protocol) OAuth callback handler">
   <Container>
     <div class="flex flex-col items-center justify-center py-20 gap-3">
       <div class="w-5 h-5 rounded-full border-2 border-black/20 dark:border-white/20 border-t-black/60 dark:border-t-white/60 animate-spin"></div>
@@ -13,96 +13,30 @@ import Container from "@components/Container.astro";
 </PageLayout>
 
 <script>
-  import { BrowserOAuthClient } from "@atproto/oauth-client-browser";
+  // Bluesky (AT Protocol) only — Mastodon has its own callback page at
+  // /oauth/mastodon-callback, so there's no need to sniff which flow this is.
+  import { BrowserOAuthClient, LoginContinuedInParentWindowError } from "@atproto/oauth-client-browser";
 
   (async () => {
-    const params = new URLSearchParams(location.search);
-    const hash = new URLSearchParams(location.hash.replace(/^#/, ""));
-    const code = params.get("code");
-    const errorParam = params.get("error");
-
-    // AT Protocol returns its response in the URL *fragment* (responseMode "fragment"):
-    // #state=…&code=…&iss=…. Mastodon returns ?code=… in the query string with no iss.
-    const isAtproto = hash.has("iss") || params.has("iss") || (hash.has("state") && (hash.has("code") || hash.has("error")));
-    if (isAtproto) {
-      try {
-        const isLoopback = location.hostname === "localhost" || location.hostname === "127.0.0.1";
-        const clientId = isLoopback
-          ? `http://localhost?redirect_uri=${encodeURIComponent(`http://127.0.0.1:${location.port}/oauth/callback`)}&scope=${encodeURIComponent("atproto transition:generic")}`
-          : `${location.origin}/client-metadata.json`;
-        const client = await BrowserOAuthClient.load({ clientId, handleResolver: "https://bsky.social" });
-        // Reads the fragment, exchanges the code, notifies the opener over a
-        // BroadcastChannel, and closes this popup itself (throws
-        // LoginContinuedInParentWindowError on success — expected).
-        await client.init();
-        // Only reached for a same-tab redirect (not a popup): return the user home.
-        if (!window.opener) location.href = localStorage.getItem("fedi-oauth-return-to") ?? "/";
-      } catch (e) {
-        // Popup success path throws by design; the library already closed us.
-      }
-      return;
-    }
-
-    function fail(msg: string) {
-      if (window.opener) {
-        window.opener.postMessage({ type: "fedi-masto-auth", error: msg }, location.origin);
-        window.close();
-      } else {
-        const returnTo = localStorage.getItem("fedi-oauth-return-to") ?? "/";
-        location.href = returnTo;
-      }
-    }
-
-    if (errorParam) { fail(errorParam); return; }
-    if (!code) { fail("No authorization code received."); return; }
-
-    const raw = localStorage.getItem("fedi-masto-pending");
-    if (!raw) { fail("No pending Mastodon auth found."); return; }
-
-    const { instance, clientId, clientSecret, redirectUri } = JSON.parse(raw) as {
-      instance: string; clientId: string; clientSecret: string; redirectUri: string;
-    };
+    const isLoopback = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+    const clientId = isLoopback
+      ? `http://localhost?redirect_uri=${encodeURIComponent(`http://127.0.0.1:${location.port}/oauth/callback`)}&scope=${encodeURIComponent("atproto transition:generic")}`
+      : `${location.origin}/client-metadata.json`;
 
     try {
-      const tokenRes = await fetch(`https://${instance}/oauth/token`, {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          grant_type: "authorization_code",
-          code,
-          client_id: clientId,
-          client_secret: clientSecret,
-          redirect_uri: redirectUri,
-        }).toString(),
-      });
-      if (!tokenRes.ok) throw new Error(`Token exchange failed: ${tokenRes.status}`);
-      const { access_token } = await tokenRes.json();
-
-      const accountRes = await fetch(`https://${instance}/api/v1/accounts/verify_credentials`, {
-        headers: { Authorization: `Bearer ${access_token}` },
-      });
-      if (!accountRes.ok) throw new Error("Failed to fetch account info");
-      const account = await accountRes.json();
-
-      const sessionData = {
-        instance,
-        access_token,
-        acct: account.acct.includes("@") ? account.acct : `${account.acct}@${instance}`,
-        displayName: account.display_name || account.username,
-        avatar: account.avatar ?? "",
-      };
-
-      localStorage.setItem("fedi-masto-session", JSON.stringify(sessionData));
-      localStorage.removeItem("fedi-masto-pending");
-
-      if (window.opener) {
-        window.opener.postMessage({ type: "fedi-masto-auth", session: sessionData }, location.origin);
-        window.close();
-      } else {
-        location.href = localStorage.getItem("fedi-oauth-return-to") ?? "/";
-      }
-    } catch (e: any) {
-      fail(e?.message ?? "Unknown error");
+      const client = await BrowserOAuthClient.load({ clientId, handleResolver: "https://bsky.social" });
+      // Reads the callback params from the URL, exchanges the code, and — when this
+      // page was opened as a popup by signInPopup() — notifies the opener over a
+      // BroadcastChannel and closes this window itself, throwing
+      // LoginContinuedInParentWindowError by design once that's done.
+      await client.init();
+      // Reached only for a same-tab redirect (no popup involved): go back to the article.
+      location.href = localStorage.getItem("fedi-oauth-return-to") ?? "/";
+    } catch (e) {
+      if (e instanceof LoginContinuedInParentWindowError) return; // window is already closed
+      console.error("Bluesky sign-in failed:", e);
+      if (window.opener) window.close();
+      else location.href = localStorage.getItem("fedi-oauth-return-to") ?? "/";
     }
   })();
 </script>

@@ -543,7 +543,7 @@ const hasMastodon = !!mastodonPostUrl;
     errEl.classList.add("hidden");
 
     try {
-      const redirectUri = `${location.origin}/oauth/callback`;
+      const redirectUri = `${location.origin}/oauth/mastodon-callback`;
       const appRes = await fetch(`https://${instance}/api/v1/apps`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
