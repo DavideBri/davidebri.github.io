@@ -30,6 +30,12 @@ import Container from "@components/Container.astro";
       // BroadcastChannel and closes this window itself, throwing
       // LoginContinuedInParentWindowError by design once that's done.
       await client.init();
+      if (window.opener) {
+        window.opener.postMessage({ type: "fedi-bsky-auth" }, location.origin);
+        window.close();
+        return;
+      }
+
       // Reached only for a same-tab redirect (no popup involved): go back to the article.
       location.href = localStorage.getItem("fedi-oauth-return-to") ?? "/";
     } catch (e) {

@@ -505,16 +505,37 @@ const hasMastodon = !!mastodonPostUrl;
     btn.textContent = "Opening…";
     errEl.classList.add("hidden");
 
+    localStorage.setItem("fedi-oauth-return-to", location.href);
+
+    let blueskyAuthHandled = false;
+    const finishBlueskyAuth = async () => {
+      if (blueskyAuthHandled) return;
+      blueskyAuthHandled = true;
+      await tryRestoreBluesky();
+    };
+
+    const onMessage = (e: MessageEvent) => {
+      if (e.origin !== location.origin || e.data?.type !== "fedi-bsky-auth") return;
+      void finishBlueskyAuth();
+    };
+
+    window.addEventListener("message", onMessage, { once: true });
+
     try {
       const client = await getBskyClient();
       const session = await client.signInPopup(handle);
-      bskySession = session;
-      const profileRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(session.did)}`);
-      const profile = await profileRes.json();
-      onLoggedIn("bluesky", { handle: profile.handle, avatar: profile.avatar ?? "", displayName: profile.displayName ?? "" });
+      if (!blueskyAuthHandled) {
+        blueskyAuthHandled = true;
+        bskySession = session;
+        const profileRes = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(session.did)}`);
+        const profile = await profileRes.json();
+        onLoggedIn("bluesky", { handle: profile.handle, avatar: profile.avatar ?? "", displayName: profile.displayName ?? "" });
+      }
     } catch (e: any) {
-      errEl.textContent = e?.message?.includes("popup") ? "Popup was blocked — please allow popups for this site." : (e?.message ?? "Sign-in failed.");
-      errEl.classList.remove("hidden");
+      if (!blueskyAuthHandled) {
+        errEl.textContent = e?.message?.includes("popup") ? "Popup was blocked — please allow popups for this site." : (e?.message ?? "Sign-in failed.");
+        errEl.classList.remove("hidden");
+      }
     } finally {
       btn.disabled = false;
       btn.textContent = "Continue →";
