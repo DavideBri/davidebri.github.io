@@ -10,7 +10,10 @@ import RssButton from "@components/RssButton.astro";
 const data = (await getCollection("blog"))
   .filter(post => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-  
+
+// Chronological ordinal: the first post ever written is 01
+const indexOf = new Map(data.map((post, i) => [post.slug, data.length - i]));
+
 type Acc = {
   [year: string]: CollectionEntry<"blog">[];
 }
@@ -24,7 +27,7 @@ const posts = data.reduce((acc: Acc, post) => {
     return acc;
   }, {});
 
-const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a)); 
+const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
 ---
 
 <PageLayout title={BLOG.TITLE} description={BLOG.DESCRIPTION}>
@@ -35,26 +38,27 @@ const years = Object.keys(posts).sort((a, b) => parseInt(b) - parseInt(a));
       </BackToPrev>
     </div>
     <div class="space-y-1 my-5">
-      <div class="font-semibold text-center text-2xl text-black dark:text-white">
-        📜
-      </div>
-      <div class="text-center text-black dark:text-white">
-        <p> Below, you'll find things
+      <div class="text-center pb-5 border-b-2 border-[var(--rule-strong)]">
+        <div class="mono-label mono-label-accent mb-3">
+          The writing — index
+        </div>
+        <h1 class="font-display text-4xl font-medium tracking-tight text-[var(--text-primary)] mb-3">Everything I've written down</h1>
+        <p class="text-[var(--text-primary)]"> Below, you'll find things
         <abbr title=" written by me, grammar checked by quillbot ">I've written</abbr> about topics that captured my interest,
-        along with some personal reflections I'd like to share.</p>  
+        along with some personal reflections I'd like to share.</p>
       </div>
-      <div class="space-y-4">
+      <div class="space-y-8 pt-4">
         {years.map(year => (
-          <section class="space-y-4">
-            <div class="font-semibold text-black dark:text-white">
+          <section>
+            <div class="mono-label text-[12px] mb-2">
               {year}
             </div>
-            <div>
-              <ul class="flex flex-col gap-4">
+            <div class="border-b border-[var(--border)]">
+              <ul class="flex flex-col">
                 {
                   posts[year].map((post) => (
                     <li>
-                      <ArrowCard entry={post}/>
+                      <ArrowCard entry={post} index={indexOf.get(post.slug)}/>
                     </li>
                   ))
                 }

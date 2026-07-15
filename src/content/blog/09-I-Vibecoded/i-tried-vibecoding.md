@@ -66,7 +66,7 @@ Credits were over for the day. I’d continue tomorrow.
 
 ## The Dopamine Effect
 
-Here’s the funny part: it was a pure dopamine bath.
+Here’s the funny part: it was a ==pure dopamine bath==.
 
 Watching *my* words transform into something that would normally take me hours of research, implementation, and debugging — all compressed into 10 minutes — felt surreal.
 

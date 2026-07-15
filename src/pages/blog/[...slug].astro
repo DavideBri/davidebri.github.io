@@ -9,8 +9,9 @@ import ProgressBar from "@components/ProgressBar.astro";
 import FediverseComments from "@components/FediverseComments.astro";
 
 export async function getStaticPaths() {
+    // drafts stay reachable by URL in dev, but are never built for production
     const posts = (await getCollection("blog"))
-        .filter((post) => !post.data.draft)
+        .filter((post) => import.meta.env.DEV || !post.data.draft)
         .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     return posts.map((post) => ({
         params: { slug: post.slug },
@@ -29,23 +30,23 @@ const { Content } = await post.render();
         <div class="">
             <BackToPrev href="/blog"> Back to blog </BackToPrev>
         </div>
-        <div class="space-y-1 my-10">
-            <div class="flex items-center gap-1.5">
-                <div class="font-base text-sm">
+        <div class="space-y-3 my-10">
+            <div class="flex items-center gap-3 mono-label">
+                <span>
                     <FormattedDate date={post.data.date} />
-                </div>
-                &bull;
-                <div class="font-base text-sm">
+                </span>
+                <span class="text-[var(--border-strong)]">·</span>
+                <span>
                     {readingTime(post.body)}
-                </div>
+                </span>
             </div>
-            <div
-                class="text-2xl font-semibold text-black dark:text-white"
+            <h1
+                class="font-display text-3xl font-medium tracking-tight leading-tight text-[var(--text-primary)] pb-4 border-b-2 border-[var(--rule-strong)]"
             >
                 {post.data.title}
-            </div>
+            </h1>
         </div>
-        <article class="">
+        <article class="post-article">
             <Content />
         </article>
         <FediverseComments

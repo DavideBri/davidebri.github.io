@@ -19,10 +19,11 @@ Being a computer science student with a keen interest in blockchain, I eagerly a
 Once home and some intense scrutiny (using a tool he suggested called [slinther](https://github.com/crytic/slither)), I finally hit upon something interesting: a potential **reentrancy attack**.
 
 
-For those unfamiliar with the concept, a reentrancy attack is a type of vulnerability that allows an attacker to repeatedly call a function in a smart contract, essentially allowing them to drain the contract's balance and potentially causing it to fail.
+> [!NOTE]
+> For those unfamiliar with the concept, a reentrancy attack is a type of vulnerability that allows an attacker to repeatedly call a function in a smart contract, essentially allowing them to drain the contract's balance and potentially causing it to fail.
 
 The part of the contact interested is the following:
-```java
+```java title="EtherBank.sol"
 function withdraw() public {
     require(balanceOf[msg.sender] > 0, "Insufficient funds");
     (bool success,) = payable(msg.sender).call{value: balanceOf[msg.sender]}("");
@@ -37,7 +38,7 @@ Inside this function we can *re-call* `withdraw()` immediatelly, and since the b
 
 An example of the code used:
 
-```java
+```java title="Attacker.sol"
 receive() external payable {
     if (address(etherBank).balance > 0) {
         console.log("reentering...");

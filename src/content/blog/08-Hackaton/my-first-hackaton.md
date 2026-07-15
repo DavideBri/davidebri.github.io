@@ -42,7 +42,8 @@ i changed one line... i thought. 🙄
 
 Finally, a teammate setted up a Prettier config we could use project-wide, and that gave us a huge boost on the project.
 
-I hadn’t realized Prettier could cause such problems when working in a slightly larger group than I was used to. Lesson learned! 😅
+> [!TIP]
+> I hadn’t realized Prettier could cause such problems when working in a slightly larger group than I was used to. Lesson learned! 😅
 
 Suddenly, some people drop off of the hackaton, so in the last day we had to made the presentation and prepare the speech for the in person event, where we got the chance to show our working demo.
 
@@ -52,7 +53,7 @@ This is me (with the mic🎤) the day of the event with Omar.
 Since we ( the team ) all had something else going on —work, university, or personal projects— I am so proud of our team's work and i think it was the most beatiful and intuitive app. Even though the other projects where great in other ways, so shout out to them as well.👏
 
 ### So, No Prize, Huh?
-yeah it was a bummer but i **gained so much knowledge**, **meet new awesome fellows** and be able to **present in fornt of an audience** — which, to me, was the real prize. (Yes, it’s super cheesy, but I swear, it’s true! 🥲).
+yeah it was a bummer but i **gained so much knowledge**, **meet new awesome fellows** and be able to **present in fornt of an audience** — which, to me, was ==the real prize==. (Yes, it’s super cheesy, but I swear, it’s true! 🥲).
 
 In the end,  I’d totally do another hackathon in the future, and meanwhile, i can check it off my 2024 bucketlist. ✅ <br>
 You can check the project and the demo on my [Github](https://github.com/DavideBri/Botanica).

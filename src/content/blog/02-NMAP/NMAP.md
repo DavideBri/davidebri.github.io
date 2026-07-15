@@ -10,7 +10,7 @@ It's usefull for **port scanning**, that means we know if that computer is hosti
 
 Every computer has a total of 65535 available ports; however, many of these are registered as standard ports (1024). 
 
-So nmap does a check on every port and depending on how the port responds, it can be determined as being open, closed, or filtered (usually by a firewall).
+So nmap does a check on every port and depending on how the port responds, it can be determined as being ==open, closed, or filtered== (usually by a firewall).
 
 ## Scan types
 

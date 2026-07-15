@@ -18,20 +18,21 @@ const projects = (await getCollection("projects"))
         Back home
       </BackToPrev>
     </div>
-    <div class="space-y-10">
-    <div class="space-y-1 my-6">
-      <div class="font-semibold text-center text-2xl text-black dark:text-white">
-        💻
+    <div class="space-y-8">
+    <div class="my-6 text-center pb-5 border-b-2 border-[var(--rule-strong)]">
+      <div class="mono-label mono-label-accent mb-3">
+        Things I've made — {projects.length} entries
       </div>
-      <div class="text-center text-black dark:text-white">
+      <h1 class="font-display text-4xl font-medium tracking-tight text-[var(--text-primary)] mb-3">Projects &amp; experiments</h1>
+      <div class="text-[var(--text-primary)]">
         {PROJECTS.DESCRIPTION}
       </div>
     </div>
-      <ul class="flex flex-col gap-4">
+      <ul class="flex flex-col border-b border-[var(--border)]">
         {
-          projects.map((project) => (
+          projects.map((project, i) => (
             <li>
-              <ArrowCard entry={project}/>
+              <ArrowCard entry={project} index={projects.length - i}/>
             </li>
           ))
         }

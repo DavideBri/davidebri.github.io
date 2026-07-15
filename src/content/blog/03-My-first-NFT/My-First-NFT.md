@@ -21,7 +21,7 @@ YES! Thanks to [Unstoppable Domains](https://unstoppabledomains.com/) we can now
 These domains (or NFT) are stored on it's owner's wallet and nobody can take them away. 
 Thing that may happen if you own a traditional domain, it can be censured or taken down.
 
-Another feature that convinced me to buy one, is that there are not renewal fees ever!
+Another feature that convinced me to buy one, is that there are ==not renewal fees ever==!
 
 I was able to bought it at 40$. When I'm writing this post I did not Claim it yet. Because the gas fees are too high so it's not worth it, I'm waiting that Unstoppable Domains enable Polygon network so the Minting and Gass fees will be almost zero.
  
@@ -41,13 +41,17 @@ My favourite use is the last one, a easy-to-say wallet address is pretty usefull
 I'll update this post when I'll do the Claiming.
 
 
---- **Update of 09/12/2021**
+---
+
+**Update of 09/12/2021**
 
 I went back to Unstoppable domains and, finally, I was able to mint my NFT, I mint my domain. Now it's in my wallet aka it's mine.
 
 But Im sad to see that I have to wait untill 12/12 to manage it.
 
---- **Update of 12/12/2021**
+---
+
+**Update of 12/12/2021**
 
 The dashboard displays 5 option:
 

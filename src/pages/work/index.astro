@@ -41,28 +41,29 @@ const achivements = await Promise.all(
         </BackToPrev>
     </div>
         <div class="space-y-10">
-        <div class="space-y-1 my-6">
-        <div class="font-semibold text-center text-2xl text-black dark:text-white">
-            👔
+        <div class="my-6 text-center pb-5 border-b-2 border-[var(--rule-strong)]">
+        <div class="mono-label mono-label-accent mb-3">
+            About me — the work
         </div>
-        <div class="text-center text-black dark:text-white">
+        <h1 class="font-display text-4xl font-medium tracking-tight text-[var(--text-primary)] mb-3">The work so far</h1>
+        <div class="text-[var(--text-primary)]">
             {WORK.DESCRIPTION}
         </div>
-        </div> 
+        </div>
 
-        <ul class="flex flex-col space-y-4">
+        <ul class="flex flex-col">
             {
                 work.map((entry) => (
-                    <li>
-                    
-                        <div class="text-sm opacity-75">
-                                {entry.data.dateStart.toLocaleString("default", { month: "short" }) +
+                    <li class="border-t border-[var(--border)] py-5">
+
+                        <div class="mono-label mb-1">
+                                {entry.data.dateStart.toLocaleString("default", { month: "short" }) + " " +
                                 entry.data.dateStart.getFullYear().toString()}
                         </div>
-                        <a href={entry.data.url} class="font-semibold text-black dark:text-white hover:underline" target="_blank" rel="noopener noreferrer">
+                        <a href={entry.data.url} class="font-display font-medium text-lg text-[var(--text-primary)] hover:text-[var(--text-accent)] transition-colors" target="_blank" rel="noopener noreferrer">
                             {entry.data.company}
                         </a>
-                        <div class="text-sm opacity-75">
+                        <div class="text-sm text-[var(--text-secondary)]">
                             {entry.data.role}
                         </div>
                         <article>
@@ -70,29 +71,29 @@ const achivements = await Promise.all(
                         </article>
 
                     </li>
-                    
+
                 ))
             }
         </ul>
         
-        <div class="my-6 flex justify-center">
-            <div class="rounded-xl bg-gray-100/20 dark:bg-gray-800/20 px-6 py-3 text-center text-gray-700 dark:text-gray-200 border border-gray-200 dark:border-gray-700 max-w">
-                Want the full resume? <a href={`mailto:${SITE.EMAIL}`} class="underline font-semibold hover:text-violet-700 dark:hover:text-violet-300">Shoot me an email</a> and I'll send it over!
+        <div class="my-6">
+            <div class="dc-callout">
+                Want the full resume? <a href={`mailto:${SITE.EMAIL}`} class="underline underline-offset-[3px] decoration-1 font-semibold text-[var(--text-accent)] hover:text-[var(--accent-hover)]">Shoot me an email</a> and I'll send it over!
             </div>
         </div>
 
-        <div class="text-center text-black dark:text-white">
-            Other Mentions
+        <div class="mono-label text-[12px] text-center">
+            Other mentions
         </div>
 
-        <ul class="flex flex-col space-y-4">
+        <ul class="flex flex-col">
             {
                 achivements.map((achiv) => (
-                    <li class="text-right">
-                        <a href={achiv.data.url} class="font-semibold text-black dark:text-white hover:underline" target="_blank" rel="noopener noreferrer">
+                    <li class="text-right border-t border-[var(--border)] py-5">
+                        <a href={achiv.data.url} class="font-display font-medium text-lg text-[var(--text-primary)] hover:text-[var(--text-accent)] transition-colors" target="_blank" rel="noopener noreferrer">
                             {achiv.data.title}
                         </a>
-                        <div class="text-sm opacity-75">
+                        <div class="text-sm text-[var(--text-secondary)]">
                             {achiv.data.description}
                         </div>
                         <article>
@@ -100,7 +101,7 @@ const achivements = await Promise.all(
                         </article>
 
                     </li>
-                    
+
                 ))
             }
         </ul>

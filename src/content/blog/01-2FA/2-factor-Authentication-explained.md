@@ -7,10 +7,11 @@ date: "10 Aug 2021"
 
 Everybody nowadays experienced at least once, after inserting the login credentials to enter a website, the other "tedious" step of writing a temporary code, sent via text messages as token or generated via an authentication app (2FA).
 
-This last step can save your accounts to be hacked. Because it's a One-Time 6 digit code and expires in less than a minute, can offer a second layer of security.
+This last step can save your accounts to be hacked. Because it's a One-Time 6 digit code and expires in less than a minute, can offer a ==second layer of security==.
 
 
-Thus even if someone knows your login credentials or stole them, they still not be able to enter if they don't have access to your 2FA app.
+> [!IMPORTANT]
+> Thus even if someone knows your login credentials or stole them, they still not be able to enter if they don't have access to your 2FA app.
 
 
 This, in short, it's how 2 Factor Authentication works.

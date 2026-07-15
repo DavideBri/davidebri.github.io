@@ -37,5 +37,5 @@ Thanks also to my Mentor who kindly tried to tranfer as much knowledge as possib
 Overall it was a rewarding and fun experience and educational because it was all online with like-minded people from across Europe.
 
 
-Failure may be funny but it's also the path to success, and this experience taught me that in a painfully funny way. 
+Failure may be funny but it's also ==the path to success==, and this experience taught me that in a painfully funny way. 
 I finished the program with high hopes, wisdom earned the hard yet hilarious way, and motivation to keep going.

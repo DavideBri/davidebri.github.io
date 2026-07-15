@@ -4,26 +4,18 @@ import Container from "@components/Container.astro";
 import PageLayout from "@layouts/PageLayout.astro";
 import ArrowCard from "@components/ArrowCard.astro";
 import Link from "@components/Link.astro";
-import CommandPalette from "@components/CommandPalette.astro";
 import { SITE, HOME, SOCIALS } from "@consts";
 
-const blog = (await getCollection("blog"))
+const allBlog = (await getCollection("blog"))
     .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-    .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const blog = allBlog.slice(0, SITE.NUM_POSTS_ON_HOMEPAGE);
 
-const projects = (await getCollection("projects"))
+const allProjects = (await getCollection("projects"))
     .filter((project) => !project.data.draft)
-    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-    .slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
+    .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const projects = allProjects.slice(0, SITE.NUM_PROJECTS_ON_HOMEPAGE);
 
-const allwork = (await getCollection("work"))
-    .sort(
-        (a, b) =>
-            new Date(b.data.dateStart).valueOf() -
-            new Date(a.data.dateStart).valueOf(),
-    )
-    .slice(0, SITE.NUM_WORKS_ON_HOMEPAGE);
 ---
 
 <PageLayout title={HOME.TITLE} description={HOME.DESCRIPTION}>
@@ -33,92 +25,89 @@ const allwork = (await getCollection("work"))
             <section class="pt-1">
                 <div class="flex items-center gap-6 mb-8">
                     <img
-                        src="/propic.jpg"
+                        src="https://avatars.githubusercontent.com/u/70480082?v=4"
                         alt="Davide's profile picture"
-                        class="w-24 h-24 rounded-full object-cover ring-2 ring-violet-300/20"
+                        class="w-24 h-24 rounded-[2px] object-cover border-[3px] border-[var(--accent)] shadow-[0_0_0_3px_var(--accent-subtle)]"
                     />
                     <div>
-                        <h1 class="text-2xl font-medium text-black dark:text-white mb-2">
-                            Davide Brienza
+                        <h1 class="font-display text-3xl font-medium tracking-tight text-[var(--text-primary)] mb-2">
+                            Davide Brienza<span class="text-[var(--accent)]">.</span>
                         </h1>
-                        <p class="text-gray-600 dark:text-gray-400 text-lg">
+                        <p class="mono-label mono-label-accent">
                             @DavideBri
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="max-w-2xl">
-                    <p class="text-md leading-7 text-gray-800 dark:text-gray-200 mb-8 max-w-2xl">
-                        Backend developer from Pisa who gets obsessively curious about things. <br>
+                    <p class="text-md leading-7 text-[var(--text-primary)] mb-8 max-w-2xl">
+                        Backend developer from Pisa who gets <span class="marker">obsessively curious</span> about things. <br>
                         Currently deep in the decentralized networks rabbit hole.<br>
-                        When I'm not coding, I'm either spiking volleyballs, 
+                        When I'm not coding, I'm either spiking volleyballs,
                         fixing/building random stuff, or gesturing dramatically while talking.
                     </p>
-                <div class="border-l-4 border-gray-300 dark:border-gray-600 pl-2">
-                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                <div class="dc-callout dc-callout-neutral">
+                    <p class="text-sm text-[var(--text-muted)]">
                         Fun fact: my YouTube history is 40% tech talks, 30% DIY tutorials, 30% volleyball clips
                     </p>
+                </div>
                 </div>
             </section>
 
             <!-- Latest Posts -->
             <section>
-                <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-xl font-medium text-black dark:text-white">
+                <div class="flex items-end justify-between mb-4">
+                    <h2 class="mono-label text-[12px]">
                         Latest posts
                     </h2>
-                    <Link href="/blog">
+                    <a href="/blog" class="standalone-link text-sm">
                         See all posts →
-                    </Link>
+                    </a>
                 </div>
-                
-                <div class="space-y-3">
-                    {blog.map((post) => (
-                        <div class="border-b border-gray-100 dark:border-gray-800 last:border-0">
-                            <ArrowCard entry={post} />
-                        </div>
+
+                <div class="border-b border-[var(--border)]">
+                    {blog.map((post, i) => (
+                        <ArrowCard entry={post} index={allBlog.length - i} />
                     ))}
                 </div>
             </section>
 
             <!-- Recent Projects -->
             <section>
-                <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-xl font-medium text-black dark:text-white">
+                <div class="flex items-end justify-between mb-4">
+                    <h2 class="mono-label text-[12px]">
                         Recent projects
                     </h2>
-                    <Link href="/projects">
+                    <a href="/projects" class="standalone-link text-sm">
                         See all projects →
-                    </Link>
+                    </a>
                 </div>
-                
-                <div class="space-y-3">
-                    {projects.map((project) => (
-                        <div class="border-b border-gray-100 dark:border-gray-800 last:border-0">
-                            <ArrowCard entry={project} />
-                        </div>
+
+                <div class="border-b border-[var(--border)]">
+                    {projects.map((project, i) => (
+                        <ArrowCard entry={project} index={allProjects.length - i} />
                     ))}
                 </div>
             </section>
 
             <!-- Connect Section -->
             <section>
-                <h2 class="text-xl font-medium text-black dark:text-white mb-6">
-                    Let's Connect
+                <h2 class="mono-label text-[12px] mb-6">
+                    Let's connect
                 </h2>
-                
+
                 <div class="space-y-6">
                     <div class="max-w-2xl">
-                        <p class="text-black dark:text-white leading-relaxed mb-4">
-                            Interested in Web3? <br> 
+                        <p class="text-[var(--text-primary)] leading-relaxed mb-4">
+                            Interested in Web3? <br>
                             Looking for speakers for your next conference? <br>
                             Want to master the art of gesturing like a true Italian? <br>
                         </p>
-                        <p class="text-gray-600 dark:text-gray-400">
+                        <p class="text-[var(--text-secondary)]">
                             Feel free to reach out—whether it's just to chat, collaborate, or share ideas!
                         </p>
                     </div>
-                    
+
                     <div class="flex flex-wrap items-center gap-4 text-sm">
                         {SOCIALS.map((social, index) => (
                             <span class="flex items-center gap-2">
@@ -130,12 +119,12 @@ const allwork = (await getCollection("work"))
                                     {social.NAME}
                                 </Link>
                                 {index < SOCIALS.length - 1 && (
-                                    <span class="text-gray-300 dark:text-gray-700">/</span>
+                                    <span class="text-[var(--border-strong)]">/</span>
                                 )}
                             </span>
                         ))}
                         <span class="flex items-center gap-2">
-                            <span class="text-gray-300 dark:text-gray-700">/</span>
+                            <span class="text-[var(--border-strong)]">/</span>
                             <Link
                                 href={`mailto:${SITE.EMAIL}`}
                                 aria-label={`Email ${SITE.NAME}`}
