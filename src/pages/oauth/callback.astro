@@ -28,7 +28,7 @@ import Container from "@components/Container.astro";
         const clientId = isLoopback
           ? `http://localhost?redirect_uri=${encodeURIComponent(`http://127.0.0.1:${location.port}/oauth/callback`)}&scope=${encodeURIComponent("atproto transition:generic")}`
           : `${location.origin}/client-metadata.json`;
-        const client = await BrowserOAuthClient.load({ clientId });
+        const client = await BrowserOAuthClient.load({ clientId, handleResolver: "https://bsky.social" });
         await client.init();
       } catch (e) { /* opener surfaces the failure */ }
       if (window.opener) window.close();

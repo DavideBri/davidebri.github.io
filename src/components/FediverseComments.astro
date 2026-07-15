@@ -472,9 +472,9 @@ const hasMastodon = !!mastodonPostUrl;
         const redirectUri = `http://127.0.0.1:${location.port}/oauth/callback`;
         const scope = "atproto transition:generic";
         const clientId = `http://localhost?redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
-        bskyClient = await BrowserOAuthClient.load({ clientId });
+        bskyClient = await BrowserOAuthClient.load({ clientId, handleResolver: "https://bsky.social" });
       } else {
-        bskyClient = await BrowserOAuthClient.load({ clientId: `${location.origin}/client-metadata.json` });
+        bskyClient = await BrowserOAuthClient.load({ clientId: `${location.origin}/client-metadata.json`, handleResolver: "https://bsky.social" });
       }
     }
     return bskyClient;
