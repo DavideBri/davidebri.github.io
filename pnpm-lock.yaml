@@ -32,6 +32,9 @@ importers:
       '@fontsource-variable/bricolage-grotesque':
         specifier: ^5.2.10
         version: 5.2.10
+      '@fontsource/bricolage-grotesque':
+        specifier: ^5.2.10
+        version: 5.2.10
       '@fontsource/hanken-grotesk':
         specifier: ^5.2.8
         version: 5.2.8
@@ -476,6 +479,9 @@ packages:
 
   '@fontsource-variable/bricolage-grotesque@5.2.10':
     resolution: {integrity: sha512-5EDsCqgGpKVcJWE4sg9ydli+t5WM97mISYw5lla/Ev4z71FwXh1oN0YUU8xjkRW9+wBCGD9R+ntAvI8G4bUFJg==}
+
+  '@fontsource/bricolage-grotesque@5.2.10':
+    resolution: {integrity: sha512-V2xS+1P7C8IrSypXLUx/bLtX/LsTlYtV2k2CsU+S/0t8qepZ2hvKSlyJIx7Ub/iY8Bbnj+IjAuUF9nvFz+BbIg==}
 
   '@fontsource/hanken-grotesk@5.2.8':
     resolution: {integrity: sha512-J/e6hdfNCbyc4WK5hmZtk0zjaIsFx3pvCdPVxY25iYw2C9v1ZggGz4nfHnRjMhcz4WfaadUuwLNtvj8sQ70tkg==}
@@ -3953,6 +3959,8 @@ snapshots:
       '@expressive-code/core': 0.44.0
 
   '@fontsource-variable/bricolage-grotesque@5.2.10': {}
+
+  '@fontsource/bricolage-grotesque@5.2.10': {}
 
   '@fontsource/hanken-grotesk@5.2.8': {}
 

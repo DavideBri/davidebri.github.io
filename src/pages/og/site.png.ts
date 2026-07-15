@@ -1,17 +1,8 @@
-import type { APIRoute, GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
+import type { APIRoute } from "astro";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
 import satori from "satori";
 import sharp from "sharp";
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = (await getCollection("blog")).filter((p) => !p.data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { title: post.data.title, description: post.data.description },
-  }));
-};
 
 // Design-system tokens (light theme — the canonical look)
 const INK_950 = "#171522";
@@ -22,9 +13,9 @@ const VIOLET = "#7135D6";
 const VIOLET_DEEP = "#5C28B0";
 const PAPER = "#FFFFFF";
 
-export const GET: APIRoute = async ({ props }) => {
-  const { title, description } = props as { title: string; description: string };
-
+// The site-wide OpenGraph card: used as the default for every page
+// that isn't a blog post (home, projects, work, about, colophon).
+export const GET: APIRoute = async () => {
   const [bricolage, hanken, mono] = await Promise.all([
     readFile(
       resolve(
@@ -78,7 +69,7 @@ export const GET: APIRoute = async ({ props }) => {
                       letterSpacing: "3.5px",
                       color: VIOLET_DEEP,
                     },
-                    children: "DAVIDE BRIENZA — WRITING",
+                    children: "BLOG · PROJECTS · INFO",
                   },
                 },
                 {
@@ -95,7 +86,7 @@ export const GET: APIRoute = async ({ props }) => {
               ],
             },
           },
-          // Title + description
+          // Center: the wordmark, big, with its violet full stop
           {
             type: "div",
             props: {
@@ -104,42 +95,44 @@ export const GET: APIRoute = async ({ props }) => {
                 flexDirection: "column",
                 flex: 1,
                 justifyContent: "center",
-                gap: "26px",
-                paddingTop: "16px",
-                paddingBottom: "16px",
+                gap: "24px",
               },
               children: [
                 {
                   type: "div",
                   props: {
                     style: {
+                      display: "flex",
                       fontFamily: "Bricolage Grotesque",
-                      fontSize: title.length > 60 ? "58px" : "72px",
-                      lineHeight: 1.08,
-                      letterSpacing: "-2px",
+                      fontSize: "150px",
+                      letterSpacing: "-5px",
+                      lineHeight: 1,
                       color: INK_950,
                     },
-                    children: title,
+                    children: [
+                      { type: "span", props: { children: "davide" } },
+                      {
+                        type: "span",
+                        props: { style: { color: VIOLET }, children: "." },
+                      },
+                    ],
                   },
                 },
                 {
                   type: "div",
                   props: {
                     style: {
-                      fontSize: "27px",
+                      fontSize: "30px",
                       lineHeight: 1.45,
                       color: INK_600,
-                      maxWidth: "980px",
-                      // satori supports line clamping — keep long descriptions tidy
-                      lineClamp: 3,
                     },
-                    children: description,
+                    children: "Davide's space in the web — backend developer from Pisa, obsessively curious.",
                   },
                 },
               ],
             },
           },
-          // Footer: wordmark + handle between a hairline rule
+          // Footer: tagline + handle between a hairline rule
           {
             type: "div",
             props: {
@@ -155,18 +148,12 @@ export const GET: APIRoute = async ({ props }) => {
                   type: "div",
                   props: {
                     style: {
-                      display: "flex",
-                      fontFamily: "Bricolage Grotesque",
-                      fontSize: "34px",
-                      color: INK_950,
+                      fontFamily: "JetBrains Mono",
+                      fontSize: "20px",
+                      letterSpacing: "3px",
+                      color: INK_400,
                     },
-                    children: [
-                      { type: "span", props: { children: "davide" } },
-                      {
-                        type: "span",
-                        props: { style: { color: VIOLET }, children: "." },
-                      },
-                    ],
+                    children: "WHEN IN DOUBT, JDI !",
                   },
                 },
                 {

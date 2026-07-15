@@ -21,6 +21,7 @@
     "@atproto/oauth-client-browser": "^0.4.1",
     "@expressive-code/plugin-line-numbers": "^0.44.0",
     "@fontsource-variable/bricolage-grotesque": "^5.2.10",
+    "@fontsource/bricolage-grotesque": "^5.2.10",
     "@fontsource/hanken-grotesk": "^5.2.8",
     "@fontsource/inter": "^5.0.17",
     "@fontsource/jetbrains-mono": "^5.2.8",

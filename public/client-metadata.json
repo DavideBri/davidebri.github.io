@@ -1,4 +1,5 @@
 {
+  "client_id": "https://davidebri.github.io/client-metadata.json",
   "client_name": "davidebri.github.io",
   "client_uri": "https://davidebri.github.io",
   "redirect_uris": [

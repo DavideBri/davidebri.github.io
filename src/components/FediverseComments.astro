@@ -246,7 +246,7 @@ const hasMastodon = !!mastodonPostUrl;
     name: string;
     handle: string;
     avatar: string;
-    authorUrl: string;
+    permalink: string;    // link to open this reply on its network ("#" if unknown)
     html: string;         // safe HTML for the body
     date: string;         // ISO
     likeCount: number;
@@ -282,8 +282,10 @@ const hasMastodon = !!mastodonPostUrl;
   }
 
   function makeAvatar(src: string, alt: string): string {
-    const fallback = avatarFallbackHtml(alt).replace(/'/g, "&#39;");
-    return `<img src="${src}" alt="${escapeHtml(alt)}'s avatar" loading="lazy" crossorigin="anonymous" class="w-8 h-8 rounded-full flex-shrink-0 border border-black/10 dark:border-white/10" onerror="this.outerHTML='${fallback}';" />`;
+    if (!src) return avatarFallbackHtml(alt);
+    // Escape " so the fallback markup can't break out of the onerror="" attribute.
+    const fallback = avatarFallbackHtml(alt).replace(/"/g, "&quot;");
+    return `<img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" class="w-8 h-8 rounded-full flex-shrink-0 border border-black/10 dark:border-white/10" onerror="this.outerHTML='${fallback}';" />`;
   }
 
   function escapeHtml(s: string): string {
@@ -292,14 +294,20 @@ const hasMastodon = !!mastodonPostUrl;
 
   // ── Stream rendering ─────────────────────────────────────────────────────────
   function renderComment(c: Comment): string {
+    // Mastodon accounts often have no display name → name === handle. Show the
+    // @handle only when it actually adds information.
+    const showHandle = c.handle && c.handle !== c.name;
+    const metaInner = `${PLATFORM_ICON[c.platform]}<span>${formatDate(c.date)}</span>`;
+    const meta = c.permalink && c.permalink !== "#"
+      ? `<a href="${escapeHtml(c.permalink)}" target="_blank" rel="noopener noreferrer" class="ml-auto inline-flex items-center gap-1 text-xs opacity-40 hover:opacity-100 transition-opacity" title="Open on ${PLATFORM_LABEL[c.platform]}">${metaInner}</a>`
+      : `<span class="ml-auto inline-flex items-center gap-1 text-xs opacity-40" title="via ${PLATFORM_LABEL[c.platform]}">${metaInner}</span>`;
     return `<div class="flex gap-3 py-4">
       ${makeAvatar(c.avatar, c.name)}
       <div class="flex-1 min-w-0">
         <div class="flex flex-wrap items-baseline gap-x-1.5 mb-1">
           <span class="text-sm font-semibold text-black dark:text-white">${escapeHtml(c.name)}</span>
-          <a href="${c.authorUrl}" target="_blank" rel="noopener noreferrer" class="text-xs opacity-50 hover:opacity-100 transition-opacity">@${escapeHtml(c.handle)}</a>
-          <span class="inline-flex items-center opacity-40" title="via ${PLATFORM_LABEL[c.platform]}" aria-label="via ${PLATFORM_LABEL[c.platform]}">${PLATFORM_ICON[c.platform]}</span>
-          <span class="text-xs opacity-40 ml-auto">${formatDate(c.date)}</span>
+          ${showHandle ? `<span class="text-xs opacity-50">@${escapeHtml(c.handle)}</span>` : ""}
+          ${meta}
         </div>
         <div class="text-sm leading-relaxed fedi-comment-content">${c.html}</div>
         ${c.likeCount > 0 ? `<div class="mt-1.5 text-xs opacity-50">♥ ${c.likeCount}</div>` : ""}
@@ -364,12 +372,13 @@ const hasMastodon = !!mastodonPostUrl;
 
     for (const r of replies) {
       const p = r.post, a = p.author;
+      const rkey = String(p.uri ?? "").split("/").pop();
       comments.push({
         platform: "bluesky",
         name: a.displayName || a.handle,
         handle: a.handle,
         avatar: a.avatar ?? "",
-        authorUrl: `https://bsky.app/profile/${a.handle}`,
+        permalink: rkey ? `https://bsky.app/profile/${a.handle}/post/${rkey}` : "#",
         html: `<p>${escapeHtml(p.record?.text ?? "")}</p>`,
         date: p.indexedAt,
         likeCount: p.likeCount ?? 0,
@@ -403,7 +412,7 @@ const hasMastodon = !!mastodonPostUrl;
         name: acc.display_name || acc.acct,
         handle: acc.acct,
         avatar: acc.avatar ?? "",
-        authorUrl: acc.url ?? "#",
+        permalink: r.url ?? r.uri ?? "#",
         html: r.content ?? "",
         date: r.created_at,
         likeCount: r.favourites_count ?? 0,
@@ -772,7 +781,7 @@ const hasMastodon = !!mastodonPostUrl;
       name: handle,
       handle,
       avatar: avatarEl?.src ?? "",
-      authorUrl: "#",
+      permalink: "#",
       html: `<p>${escapeHtml(text)}</p>`,
       date: new Date().toISOString(),
       likeCount: 0,
