@@ -13,10 +13,28 @@ import Container from "@components/Container.astro";
 </PageLayout>
 
 <script>
+  import { BrowserOAuthClient } from "@atproto/oauth-client-browser";
+
   (async () => {
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
     const errorParam = params.get("error");
+
+    // AT Protocol callbacks carry an issuer (RFC 9207); Mastodon's do not.
+    // The atproto client finalizes the popup flow and notifies the opener itself.
+    if (params.has("iss")) {
+      try {
+        const isLoopback = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+        const clientId = isLoopback
+          ? `http://localhost?redirect_uri=${encodeURIComponent(`http://127.0.0.1:${location.port}/oauth/callback`)}&scope=${encodeURIComponent("atproto transition:generic")}`
+          : `${location.origin}/client-metadata.json`;
+        const client = await BrowserOAuthClient.load({ clientId });
+        await client.init();
+      } catch (e) { /* opener surfaces the failure */ }
+      if (window.opener) window.close();
+      else location.href = localStorage.getItem("fedi-oauth-return-to") ?? "/";
+      return;
+    }
 
     function fail(msg: string) {
       if (window.opener) {

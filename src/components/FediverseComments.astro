@@ -456,7 +456,17 @@ const hasMastodon = !!mastodonPostUrl;
   // ── Auth: Bluesky ────────────────────────────────────────────────────────────
   async function getBskyClient(): Promise<BrowserOAuthClient> {
     if (!bskyClient) {
-      bskyClient = await BrowserOAuthClient.load({ clientId: `${location.origin}/client-metadata.json` });
+      const isLoopback = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+      if (isLoopback) {
+        // Local dev: hosted client metadata can't be used. AT Protocol requires a
+        // loopback client whose redirect uses 127.0.0.1 (not "localhost", per RFC 8252).
+        const redirectUri = `http://127.0.0.1:${location.port}/oauth/callback`;
+        const scope = "atproto transition:generic";
+        const clientId = `http://localhost?redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
+        bskyClient = await BrowserOAuthClient.load({ clientId });
+      } else {
+        bskyClient = await BrowserOAuthClient.load({ clientId: `${location.origin}/client-metadata.json` });
+      }
     }
     return bskyClient;
   }
@@ -654,17 +664,29 @@ const hasMastodon = !!mastodonPostUrl;
     }
   }
 
+  // Resolve the article's Mastodon post to an id that is valid on the *user's* instance.
+  // Same instance → the id from the URL works directly; otherwise resolve it via search.
+  async function resolveMastoLocalId(session: MastoSession): Promise<string> {
+    const { instance, access_token } = session;
+    const { hostname: originInstance, pathname } = new URL(mastoRawUrl);
+    const originStatusId = pathname.split("/").pop();
+    if (originStatusId && instance === originInstance) return originStatusId;
+
+    const search = await fetch(`https://${instance}/api/v2/search?q=${encodeURIComponent(mastoRawUrl)}&resolve=true&type=statuses`, {
+      headers: { Authorization: `Bearer ${access_token}` },
+    }).then(r => r.json());
+    const localId: string | undefined = search.statuses?.[0]?.id;
+    if (!localId) throw new Error("Couldn't find this post on your instance.");
+    return localId;
+  }
+
   async function likeMasto() {
     if (!mastoSession) return;
     const btn = document.getElementById("like-btn") as HTMLButtonElement;
     btn.disabled = true;
     try {
       const { instance, access_token } = mastoSession;
-      const search = await fetch(`https://${instance}/api/v2/search?q=${encodeURIComponent(mastoRawUrl)}&resolve=true&type=statuses`, {
-        headers: { Authorization: `Bearer ${access_token}` },
-      }).then(r => r.json());
-      const localId: string | undefined = search.statuses?.[0]?.id;
-      if (!localId) throw new Error("Post not found on your instance");
+      const localId = await resolveMastoLocalId(mastoSession);
 
       await fetch(`https://${instance}/api/v1/statuses/${localId}/favourite`, {
         method: "POST", headers: { Authorization: `Bearer ${access_token}` },
@@ -716,13 +738,12 @@ const hasMastodon = !!mastodonPostUrl;
         });
       } else if (activePlatform === "mastodon" && mastoSession && mastoRawUrl) {
         const { instance, access_token } = mastoSession;
-        const search = await fetch(`https://${instance}/api/v2/search?q=${encodeURIComponent(mastoRawUrl)}&resolve=true&type=statuses`, {
-          headers: { Authorization: `Bearer ${access_token}` },
-        }).then(r => r.json());
-        const localId: string | undefined = search.statuses?.[0]?.id;
+        // Must resolve the post on the user's instance first — otherwise the reply
+        // would be posted as a standalone status and never appear in the thread.
+        const localId = await resolveMastoLocalId(mastoSession);
         const form = new FormData();
         form.append("status", text);
-        if (localId) form.append("in_reply_to_id", localId);
+        form.append("in_reply_to_id", localId);
         await fetch(`https://${instance}/api/v1/statuses`, {
           method: "POST", headers: { Authorization: `Bearer ${access_token}` }, body: form,
         });
