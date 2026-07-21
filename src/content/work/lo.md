@@ -1,6 +1,6 @@
 ---
 company: "Logobject"
-role: "Junior Software Engeneer"
+role: "Software Engeneer - Innovation Team"
 dateStart: "Jan 2025"
 dateEnd: ""
 url: https://logobject.com/
