@@ -43,5 +43,6 @@
     "typescript": "^5.4.2"
   },
   "devDependencies": {
+    "rehype-mermaid": "^3.0.0"
   }
 }

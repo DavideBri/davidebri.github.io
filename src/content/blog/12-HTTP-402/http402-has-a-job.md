@@ -58,34 +58,6 @@ If you've written middleware, you can see why that's elegant. It fits the shape 
 
 ---
 
-## The full lifecycle
-
-That raw exchange is the minimal version. In a real integration a **facilitator** verifies the signed payment and a payment processor settles it. Here's the full flow, modeled on [Stripe's machine-payments lifecycle](https://docs.stripe.com/payments/machine/x402#payment-lifecycle):
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant C as Client (agent)
-    participant S as Server (your API)
-    participant F as Facilitator
-    participant P as Stripe
-    C->>S: GET /paid
-    S->>P: Create PaymentIntent
-    P-->>S: Deposit address (payTo)
-    S-->>C: 402 Payment Required + terms
-    Note over C: Sign payment authorization
-    C->>S: GET /paid + X-PAYMENT header
-    S->>F: Verify payment
-    F-->>S: Valid
-    S-->>C: 200 OK + resource
-    F->>F: Settle on-chain
-    P-->>S: Capture PaymentIntent once funds land
-```
-
-The agent gets its data in a single retry, while settlement and capture finish in the background. From the server's side, it's a middleware and a header check.
-
----
-
 ## Why anyone bothered
 
 The whole thing exists because of [**AI agents**](https://crypto.news/what-are-ai-agents-in-crypto-agentic-payments-and-x402-explained/).

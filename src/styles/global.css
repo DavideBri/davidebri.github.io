@@ -577,17 +577,6 @@ article :where(pre:not(.expressive-code pre)) {
     border: 1px solid var(--border);
 }
 
-article .mermaid {
-    overflow-x: auto;
-    margin: 1.8em 0;
-}
-
-article .mermaid svg {
-    display: block;
-    max-width: 100%;
-    height: auto;
-}
-
 html.dark article :where(pre:not(.expressive-code pre)) {
     background: var(--surface-inverse);
 }

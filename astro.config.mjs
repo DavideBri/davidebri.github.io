@@ -4,6 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import expressiveCode from "astro-expressive-code";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
+import rehypeMermaid from "rehype-mermaid";
 import { remarkAlert } from "remark-github-blockquote-alert";
 import remarkFlexibleMarkers from "remark-flexible-markers";
 
@@ -57,5 +58,6 @@ export default defineConfig({
   ],
   markdown: {
     remarkPlugins: [remarkAlert, remarkFlexibleMarkers],
+    rehypePlugins: [rehypeMermaid],
   },
 });
