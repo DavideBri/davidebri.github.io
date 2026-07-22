@@ -176,3 +176,57 @@ function toggleTheme(dark) {
   document.addEventListener("astro:after-swap", () => init());
   preloadTheme();
 </script>
+
+<script is:inline type="module">
+  const MERMAID_URL = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+  async function renderMermaidDiagrams() {
+    const codeBlocks = document.querySelectorAll(
+      "pre > code.language-mermaid, pre > code.language-mermaidjs, pre > code.language-mermaid-js"
+    );
+
+    if (!codeBlocks.length) {
+      return;
+    }
+
+    const mermaid = (await import(MERMAID_URL)).default;
+    const dark = document.documentElement.classList.contains("dark");
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "strict",
+      theme: dark ? "dark" : "default",
+    });
+
+    await Promise.all(
+      [...codeBlocks].map(async (code, index) => {
+        const pre = code.parentElement;
+
+        if (!pre || pre.dataset.mermaidRendered === "true") {
+          return;
+        }
+
+        const graphDefinition = code.textContent?.trim();
+
+        if (!graphDefinition) {
+          return;
+        }
+
+        pre.dataset.mermaidRendered = "true";
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "mermaid";
+
+        const id = `mermaid-${Date.now()}-${index}`;
+        const { svg, bindFunctions } = await mermaid.render(id, graphDefinition);
+
+        wrapper.innerHTML = svg;
+        pre.replaceWith(wrapper);
+        bindFunctions?.(wrapper);
+      })
+    );
+  }
+
+  document.addEventListener("DOMContentLoaded", renderMermaidDiagrams);
+  document.addEventListener("astro:after-swap", renderMermaidDiagrams);
+</script>
