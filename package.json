@@ -43,6 +43,7 @@
     "typescript": "^5.4.2"
   },
   "devDependencies": {
+    "playwright": "^1.55.0",
     "rehype-mermaid": "^3.0.0"
   }
 }
