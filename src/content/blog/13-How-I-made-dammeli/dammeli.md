@@ -11,6 +11,7 @@ Picture this. Pizza night with friends, 8 people, one bill. Someone pays, and th
 - *"I only have PayPal."*
 - *"Just send me the IBAN"* → screenshot of the IBAN → typo in the IBAN → bank says the name doesn't match
 - *Probably someone already dropped out cause it required more than 10 second of brain time and I get no money back.."*
+![](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExc3hmeTU1NHhha2JpZXpxdzk1eXU3YmIzdGlvYWlsczMwNnoybjJyciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/djN2KXp5dfQxIEhW0Z/giphy.gif)
 
 Every. Single. Time.
 
